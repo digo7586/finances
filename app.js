@@ -1,3 +1,28 @@
+// ---------- TOGGLE DE TEMA ----------
+const htmlTag = document.documentElement;
+const themeToggleBtn = document.getElementById("theme-toggle");
+
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "light" || savedTheme === "dark") {
+  htmlTag.setAttribute("data-theme", savedTheme);
+}
+
+function updateToggleIcon() {
+  const current = htmlTag.getAttribute("data-theme") || "light";
+  themeToggleBtn.textContent = current === "dark" ? "🌙" : "☀️";
+}
+updateToggleIcon();
+
+themeToggleBtn.addEventListener("click", () => {
+  const current = htmlTag.getAttribute("data-theme") === "dark" ? "dark" : "light";
+  const next = current === "dark" ? "light" : "dark";
+  htmlTag.setAttribute("data-theme", next);
+  localStorage.setItem("theme", next);
+  updateToggleIcon();
+});
+
+// ---------- LÓGICA FINANCEIRA ----------
+
 // Armazena as transações em memória
 let transactions = JSON.parse(localStorage.getItem("transactions") || "[]");
 
@@ -128,7 +153,7 @@ function paginate(array, page, pageSize) {
   };
 }
 
-// Renderiza tabelas (entradas, fixas, variáveis, com paginação)
+// Renderiza tabelas
 function renderTransactions() {
   tbodyIncome.innerHTML = "";
   tbodyFixed.innerHTML = "";
@@ -140,13 +165,13 @@ function renderTransactions() {
   const fixeds    = list.filter((t) => t.type === "fixed");
   const variables = list.filter((t) => t.type === "variable");
 
-  const incomePage   = paginate(incomes,   currentPageIncome,   PAGE_SIZE);
-  currentPageIncome  = incomePage.page;
+  const incomePage    = paginate(incomes,   currentPageIncome,   PAGE_SIZE);
+  currentPageIncome   = incomePage.page;
 
-  const fixedPage    = paginate(fixeds,    currentPageFixed,    PAGE_SIZE);
-  currentPageFixed   = fixedPage.page;
+  const fixedPage     = paginate(fixeds,    currentPageFixed,    PAGE_SIZE);
+  currentPageFixed    = fixedPage.page;
 
-  const variablePage = paginate(variables, currentPageVariable, PAGE_SIZE);
+  const variablePage  = paginate(variables, currentPageVariable, PAGE_SIZE);
   currentPageVariable = variablePage.page;
 
   function createRow(t) {
@@ -237,21 +262,21 @@ function calcSummary() {
   const list = getFilteredTransactions();
 
   list.forEach((t) => {
-    if (t.type === "income") income += t.amount;
-    if (t.type === "fixed") fixed += t.amount;
+    if (t.type === "income")   income += t.amount;
+    if (t.type === "fixed")    fixed += t.amount;
     if (t.type === "variable") variable += t.amount;
-    if (t.type === "extra") extra += t.amount;
+    if (t.type === "extra")    extra += t.amount;
   });
 
   const totalReceitas = income + extra;
   const totalDespesas = fixed + variable;
   const balance = totalReceitas - totalDespesas;
 
-  elTotalIncome.textContent = formatMoney(totalReceitas);
-  elTotalFixed.textContent = formatMoney(fixed);
+  elTotalIncome.textContent   = formatMoney(totalReceitas);
+  elTotalFixed.textContent    = formatMoney(fixed);
   elTotalVariable.textContent = formatMoney(variable);
-  elTotalExtra.textContent = formatMoney(extra);
-  elBalance.textContent = formatMoney(balance);
+  elTotalExtra.textContent    = formatMoney(extra);
+  elBalance.textContent       = formatMoney(balance);
 
   const saldoCard = elBalance.parentElement;
   saldoCard.style.borderColor = balance < 0 ? "#ef4444" : "#22c55e";
@@ -259,8 +284,7 @@ function calcSummary() {
   return { totalReceitas, totalDespesas };
 }
 
-
-// Gráfico de despesas por categoria (%)
+// Gráfico de despesas por categoria
 function buildCategoryChart() {
   const canvas = document.getElementById("categoryChart");
   if (!canvas || typeof Chart === "undefined") return;
@@ -327,17 +351,9 @@ function getSelectedMonthLabel() {
   return `${month}/${year}`;
 }
 
-
-function getSelectedMonthLabel() {
-  if (!currentMonthFilter) return "Todos os meses";
-  const [year, month] = currentMonthFilter.split("-");
-  return `${month}/${year}`;
-}
-
-
 // Gráfico Receita x Despesa do mês selecionado
 function buildMonthChart() {
-    const monthLabel = getSelectedMonthLabel();
+  const monthLabel = getSelectedMonthLabel();
 
   const canvas = document.getElementById("monthChart");
   if (!canvas || typeof Chart === "undefined") return;
@@ -373,9 +389,7 @@ function buildMonthChart() {
     options: {
       responsive: true,
       layout: {
-        padding: {
-          top: 20,   // espaço extra entre legenda e barras
-        },
+        padding: { top: 20 },
       },
       scales: {
         x: { ticks: { color: "#e5e7eb" } },
@@ -384,7 +398,7 @@ function buildMonthChart() {
       plugins: {
         legend: {
           labels: { color: "#e5e7eb" },
-          padding: 20,        // espaçamento interno da legenda
+          padding: 20,
         },
         datalabels: {
           anchor: "end",
@@ -403,7 +417,6 @@ function buildMonthChart() {
   });
 }
 
-
 // Atualiza tudo
 function updateUI() {
   const label = getSelectedMonthLabel();
@@ -416,7 +429,6 @@ function updateUI() {
   buildCategoryChart();
   buildMonthChart();
 }
-
 
 // Submit do formulário
 form.addEventListener("submit", (e) => {

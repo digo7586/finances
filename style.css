@@ -359,6 +359,9 @@ td.categoria-Outros       { color: #e5e7eb; } */
     font-size: 0.9rem;
   }
 
+    #transaction-form button {
+  padding: 6px;
+}
   /* Filtro: empilhar label, input e botão */
   .filters-row {
     flex-direction: column;

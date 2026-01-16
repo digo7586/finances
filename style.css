@@ -304,6 +304,12 @@ td.categoria-Outros       { color: #e5e7eb; } */
   color: #9ca3af;
 }
 
+.finance-footer {
+  text-align: center;
+  padding: 10px 0;
+  color: #666666;
+  background-color: #f5f5f5;
+}
 
 /* RESPONSIVO */
 

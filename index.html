@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard Financeiro Pessoal</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Chart.js + plugin para porcentagens -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+</head>
+<body>
+  <header class="topbar">
+    <h1>Minhas Finanças</h1>
+  </header>
+
+  <main class="container">
+    <!-- CARDS RESUMO -->
+    <section class="summary">
+      <div class="card income">
+        <h2>Receitas</h2>
+        <p id="total-income">R$ 0,00</p>
+      </div>
+      <div class="card fixed">
+        <h2>Despesas Fixas</h2>
+        <p id="total-fixed">R$ 0,00</p>
+      </div>
+      <div class="card variable">
+        <h2>Despesas Variáveis</h2>
+        <p id="total-variable">R$ 0,00</p>
+      </div>
+      <div class="card extra">
+        <h2>Renda Extra</h2>
+        <p id="total-extra">R$ 0,00</p>
+      </div>
+      <div class="card saldo">
+        <h2>Saldo</h2>
+        <p id="balance">R$ 0,00</p>
+      </div>
+    </section>
+
+    <!-- FORMULÁRIO -->
+    <section class="form-section">
+      <h2>Novo lançamento</h2>
+      <form id="transaction-form">
+        <input type="date" id="date" required />
+        <input type="text" id="description" placeholder="Descrição" required />
+        <input type="number" id="amount" step="0.01" placeholder="Valor" required />
+
+        <select id="type" required>
+          <option value="">Tipo</option>
+          <option value="income">Receita</option>
+          <option value="fixed">Despesa fixa</option>
+          <option value="variable">Despesa variável</option>
+          <option value="extra">Renda extra</option>
+        </select>
+
+        <input
+          type="text"
+          id="category"
+          placeholder="Categoria (ex: Mercado, Aluguel)"
+          required
+        />
+
+        <button type="submit">Adicionar</button>
+      </form>
+    </section>
+
+    <!-- FILTRO DE MÊS -->
+    <section class="filters">
+        <h3>Selecione um mês</h3>
+        <div class="filters-row">
+      <label for="month-filter">Mês:</label>
+      <input type="month" id="month-filter" />
+      <button id="clear-month">Limpar filtro</button>
+        </div>
+    </section>
+
+    <!-- ENTRADAS -->
+    <section class="transactions-section">
+      <h3>Entradas</h3>
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="date">Data ▲▼</th>
+            <th data-sort="description">Descrição ▲▼</th>
+            <th data-sort="type">Tipo ▲▼</th>
+            <th data-sort="category">Categoria ▲▼</th>
+            <th data-sort="amount">Valor ▲▼</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="transactions-income"></tbody>
+      </table>
+      <div class="pagination" id="pagination-income">
+        <button data-role="prev">«</button>
+        <span data-role="info"></span>
+        <button data-role="next">»</button>
+      </div>
+    </section>
+
+    <!-- DESPESAS FIXAS -->
+    <section class="transactions-section">
+      <h3>Despesas Fixas</h3>
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="date">Data ▲▼</th>
+            <th data-sort="description">Descrição ▲▼</th>
+            <th data-sort="type">Tipo ▲▼</th>
+            <th data-sort="category">Categoria ▲▼</th>
+            <th data-sort="amount">Valor ▲▼</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="transactions-fixed"></tbody>
+      </table>
+      <div class="pagination" id="pagination-fixed">
+        <button data-role="prev">«</button>
+        <span data-role="info"></span>
+        <button data-role="next">»</button>
+      </div>
+    </section>
+
+    <!-- DESPESAS VARIÁVEIS -->
+    <section class="transactions-section">
+      <h3>Despesas Variáveis</h3>
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="date">Data ▲▼</th>
+            <th data-sort="description">Descrição ▲▼</th>
+            <th data-sort="type">Tipo ▲▼</th>
+            <th data-sort="category">Categoria ▲▼</th>
+            <th data-sort="amount">Valor ▲▼</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="transactions-variable"></tbody>
+      </table>
+      <div class="pagination" id="pagination-variable">
+        <button data-role="prev">«</button>
+        <span data-role="info"></span>
+        <button data-role="next">»</button>
+      </div>
+    </section>
+
+    <!-- GRÁFICOS -->
+    <section class="charts">
+      <div class="chart-card">
+        <h2>Despesas por categoria</h2>
+        <canvas id="categoryChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h2 id="month-chart-title">Receitas x Despesas (mês)</h2>
+        <canvas id="monthChart"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

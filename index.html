@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <title>Dashboard Financeiro Pessoal</title>
@@ -12,6 +12,9 @@
 <body>
   <header class="topbar">
     <h1>Minhas Finanças</h1>
+    <button id="theme-toggle" aria-label="Alternar tema">
+      🌙
+    </button>
   </header>
 
   <main class="container">
@@ -68,12 +71,12 @@
 
     <!-- FILTRO DE MÊS -->
     <section class="filters">
-        <h3>Selecione um mês</h3>
-        <div class="filters-row">
-      <label for="month-filter">Mês:</label>
-      <input type="month" id="month-filter" />
-      <button id="clear-month">Limpar filtro</button>
-        </div>
+      <h3>Selecione um mês</h3>
+      <div class="filters-row">
+        <label for="month-filter">Mês:</label>
+        <input type="month" id="month-filter" />
+        <button id="clear-month" type="button">Limpar filtro</button>
+      </div>
     </section>
 
     <!-- ENTRADAS -->
@@ -157,6 +160,10 @@
       </div>
     </section>
   </main>
+
+  <footer class="finance-footer">
+    <p>&copy; Desenvolvido por Diego Domingos 2025</p>
+  </footer>
 
   <script src="app.js"></script>
 </body>

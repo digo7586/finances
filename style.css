@@ -5,19 +5,58 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+/* variáveis de tema (claro por padrão) */
+:root {
+  --bg-body: #f3f4f6;
+  --bg-topbar: #ffffff;
+  --bg-card: #ffffff;
+  --bg-section: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #050505;
+  --border-soft: #cbcdd1;
+  --row-alt: #f9fafb;
+  --row-hover: #e5f2ff;
+}
+
+/* sobrescreve para tema escuro */
+:root[data-theme="dark"] {
+  --bg-body: #0f172a;
+  --bg-topbar: #020617;
+  --bg-card: #020617;
+  --bg-section: #020617;
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
+  --border-soft: #1f2937;
+  --row-alt: #020617;
+  --row-hover: #020617dd;
+}
+
+/* GERAL */
+
 body {
-  background: #0f172a;
-  color: #e5e7eb;
+  background: var(--bg-body);
+  color: var(--text-main);
 }
 
 .topbar {
   padding: 16px 24px;
-  background: #020617;
-  border-bottom: 1px solid #1f2937;
+  background: var(--bg-topbar);
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .topbar h1 {
   font-size: 1.5rem;
+}
+
+#theme-toggle {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--text-main);
 }
 
 .container {
@@ -36,16 +75,16 @@ body {
 }
 
 .card {
-  background: #020617;
+  background: var(--bg-card);
   border-radius: 10px;
   padding: 12px;
-  border: 1px solid #1f2937;
+  border: 1px solid var(--border-soft);
 }
 
 .card h2 {
   font-size: 0.9rem;
   margin-bottom: 8px;
-  color: #9ca3af;
+  color: var(--text-muted);
 }
 
 .card p {
@@ -53,34 +92,19 @@ body {
   font-weight: 600;
 }
 
-.card.income {
-  border-color: #22c5af;
-}
-
-.card.fixed {
-  border-color: #f97316;
-}
-
-.card.variable {
-  border-color: #ef4444;
-}
-
-.card.extra {
-  border-color: #3b82f6;
-}
-
-
-.card.saldo {
-  border-color: #22c55e;
-}
+.card.income   { border-color: #22c5af; }
+.card.fixed    { border-color: #f97316; }
+.card.variable { border-color: #ef4444; }
+.card.extra    { border-color: #3b82f6; }
+.card.saldo    { border-color: #22c55e; }
 
 /* FORMULÁRIO */
 
 .form-section {
-  background: #020617;
+  background: var(--bg-section);
   border-radius: 10px;
   padding: 16px;
-  border: 1px solid #1f2937;
+  border: 1px solid var(--border-soft);
   margin-bottom: 20px;
 }
 
@@ -97,11 +121,16 @@ body {
 
 #transaction-form input,
 #transaction-form select {
-  background: #020617;
+  background: var(--bg-card);
   border-radius: 6px;
   border: 1px solid #5e6674;
-  color: #e5e7eb;
+  color: var(--text-main);
   padding: 6px 8px;
+}
+
+:root[data-theme="dark"] #transaction-form input,
+:root[data-theme="dark"] #transaction-form select {
+  color: #e5e7eb;
 }
 
 #transaction-form button {
@@ -115,15 +144,14 @@ body {
 
 #transaction-form button:hover {
   background: #16a34a;
-  
 }
 
 /* FILTRO DE MÊS */
 
 .filters {
-  background: #020617;
+  background: var(--bg-section);
   border-radius: 10px;
-  border: 1px solid #1f2937;
+  border: 1px solid var(--border-soft);
   padding: 12px 16px;
   margin-bottom: 16px;
   display: flex;
@@ -142,23 +170,27 @@ body {
   gap: 8px;
 }
 
-/* deixa o texto dentro do month branco */
 .filters-row input[type="month"] {
+  color: var(--text-main);
+}
+
+:root[data-theme="dark"] .filters-row input[type="month"] {
   color: #e5e7eb;
 }
 
-/* Chrome / Edge: estilizar o ícone do calendário */
 .filters-row input[type="month"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);      /* inverte a cor (fica branco em fundo escuro) */
   cursor: pointer;
 }
 
+:root[data-theme="dark"] .filters-row input[type="month"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
 
 .filters input[type="month"] {
-  background: #020617;
+  background: var(--bg-card);
   border-radius: 6px;
   border: 1px solid #374151;
-  color: #e5e7eb;
+  color: var(--text-main);
   padding: 6px 8px;
 }
 
@@ -179,9 +211,9 @@ body {
 /* TABELA */
 
 .transactions-section {
-  background: #020617;
+  background: var(--bg-section);
   border-radius: 10px;
-  border: 1px solid #1f2937;
+  border: 1px solid var(--border-soft);
   padding: 16px;
   margin-bottom: 20px;
   overflow-x: auto;
@@ -193,23 +225,23 @@ body {
   font-size: 0.9rem;
 }
 
-.transactions-section th{
-    font-size: 14px;
+.transactions-section th {
+  font-size: 14px;
 }
 
 .transactions-section th,
 .transactions-section td {
   padding: 8px;
-  border-bottom: 1px solid #1f2937;
+  border-bottom: 1px solid var(--border-soft);
   text-align: left;
 }
 
 .transactions-section tbody tr:nth-child(even) {
-  background: #020617;
+  background: var(--row-alt);
 }
 
 .transactions-section tbody tr:hover {
-  background: #020617dd;
+  background: var(--row-hover);
 }
 
 /* BADGES TIPO */
@@ -221,10 +253,10 @@ body {
   text-transform: capitalize;
 }
 
-.badge-income { background: #16a34a33; color: #4ade80; }
-.badge-fixed { background: #f9731633; color: #fdba74; }
+.badge-income   { background: #16a34a33; color: #4ade80; }
+.badge-fixed    { background: #f9731633; color: #fdba74; }
 .badge-variable { background: #e11d4833; color: #fb7185; }
-.badge-extra { background: #22c55e33; color: #bbf7d0; }
+.badge-extra    { background: #22c55e33; color: #bbf7d0; }
 
 /* BOTÃO REMOVER */
 
@@ -244,37 +276,18 @@ body {
 }
 
 .chart-card {
-  background: #020617;
+  background: var(--bg-section);
   border-radius: 10px;
-  border: 1px solid #1f2937;
+  border: 1px solid var(--border-soft);
   padding: 16px;
 }
 
 .chart-card h2 {
   font-size: 1.5rem;
-  margin-bottom: 12px;  
+  margin-bottom: 12px;
 }
 
-
-
-/* CORES POR CATEGORIA (texto da célula de categoria)
-   Classe: categoria-NomeSemEspacoNemAcento */
-
-/* td.categoria-Mercado      { color: #22c55e; }
-td.categoria-Supermercado { color: #16a34a; }
-td.categoria-Aluguel      { color: #f97316; }
-td.categoria-Transporte   { color: #3b82f6; }
-td.categoria-Combustivel  { color: #eab308; }
-td.categoria-Restaurante  { color: #a16207; }
-td.categoria-Lazer        { color: #ec4899; }
-td.categoria-Agua         { color: #0ea5e9; }
-td.categoria-Luz          { color: #a855f7; }
-td.categoria-Internet     { color: #7c3aed; }
-td.categoria-Cartao       { color: #f97316; }
-td.categoria-Farmacia     { color: #ef4444; }
-td.categoria-Salario      { color: #4ade80; }
-td.categoria-RendaExtra   { color: #22c55e; }
-td.categoria-Outros       { color: #e5e7eb; } */
+/* PAGINAÇÃO */
 
 .pagination {
   display: flex;
@@ -304,6 +317,15 @@ td.categoria-Outros       { color: #e5e7eb; } */
   color: #9ca3af;
 }
 
+/* FOOTER */
+
+.finance-footer {
+  font-size: 10px;
+  text-align: center;
+  padding: 8px 0;
+  background: var(--bg-topbar);
+  color: var(--text-muted);
+}
 
 /* RESPONSIVO */
 
@@ -318,5 +340,78 @@ td.categoria-Outros       { color: #e5e7eb; } */
 
   .charts {
     grid-template-columns: 1fr;
+  }
+}
+
+/* foco em celular (até ~600px) */
+@media (max-width: 600px) {
+  .container {
+    padding: 0 8px 24px;
+  }
+
+  .topbar {
+    padding: 12px 16px;
+  }
+
+  .topbar h1 {
+    font-size: 1.1rem;
+  }
+
+  .summary {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  #transaction-form {
+    grid-template-columns: 1fr;
+  }
+
+  #transaction-form input,
+  #transaction-form select,
+  #transaction-form button {
+    font-size: 0.9rem;
+  }
+
+  #transaction-form button {
+    padding: 6px;
+  }
+
+  .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .transactions-section {
+    padding: 12px;
+  }
+
+  .transactions-section table {
+    font-size: 0.8rem;
+  }
+
+  .transactions-section th,
+  .transactions-section td {
+    padding: 6px 4px;
+  }
+
+  .pagination {
+    justify-content: center;
+  }
+
+  .chart-card {
+    padding: 12px;
+  }
+
+  .chart-card h2 {
+    font-size: 1.1rem;
+  }
+
+  canvas {
+    max-width: 100%;
   }
 }

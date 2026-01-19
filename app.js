@@ -93,6 +93,11 @@ function getFilteredTransactions() {
   });
 }
 
+// sempre retorna todas as transações (sem filtro de mês)
+function getAllTransactions() {
+  return transactions;
+}
+
 // ordena lista de acordo com sortConfig
 function sortTransactions(list) {
   const { column, direction } = sortConfig;
@@ -252,36 +257,46 @@ function renderTransactions() {
   varInfo.textContent = `${variablePage.page} / ${variablePage.totalPages}`;
 }
 
-// Calcula totais
 function calcSummary() {
-  let income = 0;
-  let fixed = 0;
-  let variable = 0;
-  let extra = 0;
-
-  const list = getFilteredTransactions();
-
-  list.forEach((t) => {
-    if (t.type === "income")   income += t.amount;
-    if (t.type === "fixed")    fixed += t.amount;
-    if (t.type === "variable") variable += t.amount;
-    if (t.type === "extra")    extra += t.amount;
+  // === CARDS DO MÊS SELECIONADO ===
+  const filteredList = getFilteredTransactions();
+  let incomeMonth = 0, fixedMonth = 0, variableMonth = 0, extraMonth = 0;
+  
+  filteredList.forEach((t) => {
+    if (t.type === "income") incomeMonth += t.amount;
+    if (t.type === "fixed") fixedMonth += t.amount;
+    if (t.type === "variable") variableMonth += t.amount;
+    if (t.type === "extra") extraMonth += t.amount;
   });
 
-  const totalReceitas = income + extra;
-  const totalDespesas = fixed + variable;
-  const balance = totalReceitas - totalDespesas;
+  // === SALDO TOTAL (TODOS OS MESES, FIXO) ===
+  const allList = getAllTransactions();
+  let incomeTotal = 0, fixedTotal = 0, variableTotal = 0, extraTotal = 0;
+  
+  allList.forEach((t) => {
+    if (t.type === "income") incomeTotal += t.amount;
+    if (t.type === "fixed") fixedTotal += t.amount;
+    if (t.type === "variable") variableTotal += t.amount;
+    if (t.type === "extra") extraTotal += t.amount;
+  });
 
-  elTotalIncome.textContent   = formatMoney(totalReceitas);
-  elTotalFixed.textContent    = formatMoney(fixed);
-  elTotalVariable.textContent = formatMoney(variable);
-  elTotalExtra.textContent    = formatMoney(extra);
-  elBalance.textContent       = formatMoney(balance);
+  const totalReceitasMes = incomeMonth + extraMonth;
+  const totalDespesasMes = fixedMonth + variableMonth;
+  const balanceTotal = (incomeTotal + extraTotal) - (fixedTotal + variableTotal);
+
+  // Cards do mês (mudam com filtro)
+  elTotalIncome.textContent = formatMoney(totalReceitasMes);
+  elTotalFixed.textContent = formatMoney(fixedMonth);
+  elTotalVariable.textContent = formatMoney(variableMonth);
+  elTotalExtra.textContent = formatMoney(extraMonth);
+
+  // Saldo TOTAL (sempre fixo)
+  elBalance.textContent = formatMoney(balanceTotal);
 
   const saldoCard = elBalance.parentElement;
-  saldoCard.style.borderColor = balance < 0 ? "#ef4444" : "#22c55e";
+  saldoCard.style.borderColor = balanceTotal < 0 ? "#ef4444" : "#22c55e";
 
-  return { totalReceitas, totalDespesas };
+  return { totalReceitas: totalReceitasMes, totalDespesas: totalDespesasMes };
 }
 
 // Gráfico de despesas por categoria

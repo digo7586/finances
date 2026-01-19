@@ -14,7 +14,8 @@ function updateToggleIcon() {
 updateToggleIcon();
 
 themeToggleBtn.addEventListener("click", () => {
-  const current = htmlTag.getAttribute("data-theme") === "dark" ? "dark" : "light";
+  const current =
+    htmlTag.getAttribute("data-theme") === "dark" ? "dark" : "light";
   const next = current === "dark" ? "light" : "dark";
   htmlTag.setAttribute("data-theme", next);
   localStorage.setItem("theme", next);
@@ -26,6 +27,9 @@ themeToggleBtn.addEventListener("click", () => {
 // Armazena as transações em memória
 let transactions = JSON.parse(localStorage.getItem("transactions") || "[]");
 
+// --- METAS / GOALS ---
+let goals = JSON.parse(localStorage.getItem("goals") || "[]");
+
 const elTotalIncome = document.getElementById("total-income");
 const elTotalFixed = document.getElementById("total-fixed");
 const elTotalVariable = document.getElementById("total-variable");
@@ -33,24 +37,28 @@ const elTotalExtra = document.getElementById("total-extra");
 const elBalance = document.getElementById("balance");
 
 const form = document.getElementById("transaction-form");
-const tbodyIncome   = document.getElementById("transactions-income");
-const tbodyFixed    = document.getElementById("transactions-fixed");
+const tbodyIncome = document.getElementById("transactions-income");
+const tbodyFixed = document.getElementById("transactions-fixed");
 const tbodyVariable = document.getElementById("transactions-variable");
 
 const monthFilterInput = document.getElementById("month-filter");
 const clearMonthBtn = document.getElementById("clear-month");
 
-const paginationIncome   = document.getElementById("pagination-income");
-const paginationFixed    = document.getElementById("pagination-fixed");
+const paginationIncome = document.getElementById("pagination-income");
+const paginationFixed = document.getElementById("pagination-fixed");
 const paginationVariable = document.getElementById("pagination-variable");
 const monthChartTitle = document.getElementById("month-chart-title");
+
+// elementos de metas
+const goalForm = document.getElementById("goal-form");
+const goalsListEl = document.getElementById("goals-list");
 
 let categoryChart;
 let monthChart;
 
 const PAGE_SIZE = 10;
-let currentPageIncome   = 1;
-let currentPageFixed    = 1;
+let currentPageIncome = 1;
+let currentPageFixed = 1;
 let currentPageVariable = 1;
 
 // mês atual filtrado: "YYYY-MM" ou "" (sem filtro)
@@ -58,7 +66,7 @@ let currentMonthFilter = "";
 
 // configuração de ordenação (para todas as tabelas)
 let sortConfig = {
-  column: "date",    // date | description | type | category | amount
+  column: "date", // date | description | type | category | amount
   direction: "desc", // "asc" ou "desc"
 };
 
@@ -78,6 +86,11 @@ function formatMoney(value) {
 // Salva transações
 function saveToStorage() {
   localStorage.setItem("transactions", JSON.stringify(transactions));
+}
+
+// Salva metas
+function saveGoalsToStorage() {
+  localStorage.setItem("goals", JSON.stringify(goals));
 }
 
 // retorna lista filtrada pelo mês
@@ -166,17 +179,19 @@ function renderTransactions() {
 
   const list = sortTransactions(getFilteredTransactions());
 
-  const incomes   = list.filter((t) => t.type === "income" || t.type === "extra");
-  const fixeds    = list.filter((t) => t.type === "fixed");
+  const incomes = list.filter(
+    (t) => t.type === "income" || t.type === "extra"
+  );
+  const fixeds = list.filter((t) => t.type === "fixed");
   const variables = list.filter((t) => t.type === "variable");
 
-  const incomePage    = paginate(incomes,   currentPageIncome,   PAGE_SIZE);
-  currentPageIncome   = incomePage.page;
+  const incomePage = paginate(incomes, currentPageIncome, PAGE_SIZE);
+  currentPageIncome = incomePage.page;
 
-  const fixedPage     = paginate(fixeds,    currentPageFixed,    PAGE_SIZE);
-  currentPageFixed    = fixedPage.page;
+  const fixedPage = paginate(fixeds, currentPageFixed, PAGE_SIZE);
+  currentPageFixed = fixedPage.page;
 
-  const variablePage  = paginate(variables, currentPageVariable, PAGE_SIZE);
+  const variablePage = paginate(variables, currentPageVariable, PAGE_SIZE);
   currentPageVariable = variablePage.page;
 
   function createRow(t) {
@@ -197,7 +212,8 @@ function renderTransactions() {
     const catTd = document.createElement("td");
     catTd.textContent = t.category;
     const normalizedCategory = t.category
-      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
       .replace(/\s+/g, "");
     catTd.classList.add(`categoria-${normalizedCategory}`);
 
@@ -230,11 +246,17 @@ function renderTransactions() {
 
   incomePage.pageItems.forEach((t) => tbodyIncome.appendChild(createRow(t)));
   fixedPage.pageItems.forEach((t) => tbodyFixed.appendChild(createRow(t)));
-  variablePage.pageItems.forEach((t) => tbodyVariable.appendChild(createRow(t)));
+  variablePage.pageItems.forEach((t) =>
+    tbodyVariable.appendChild(createRow(t))
+  );
 
   // paginação entradas
-  const incomePrev = paginationIncome.querySelector('button[data-role="prev"]');
-  const incomeNext = paginationIncome.querySelector('button[data-role="next"]');
+  const incomePrev = paginationIncome.querySelector(
+    'button[data-role="prev"]'
+  );
+  const incomeNext = paginationIncome.querySelector(
+    'button[data-role="next"]'
+  );
   const incomeInfo = paginationIncome.querySelector('span[data-role="info"]');
   incomePrev.disabled = incomePage.page <= 1;
   incomeNext.disabled = incomePage.page >= incomePage.totalPages;
@@ -249,19 +271,143 @@ function renderTransactions() {
   fixedInfo.textContent = `${fixedPage.page} / ${fixedPage.totalPages}`;
 
   // paginação variáveis
-  const varPrev = paginationVariable.querySelector('button[data-role="prev"]');
-  const varNext = paginationVariable.querySelector('button[data-role="next"]');
+  const varPrev = paginationVariable.querySelector(
+    'button[data-role="prev"]'
+  );
+  const varNext = paginationVariable.querySelector(
+    'button[data-role="next"]'
+  );
   const varInfo = paginationVariable.querySelector('span[data-role="info"]');
   varPrev.disabled = variablePage.page <= 1;
   varNext.disabled = variablePage.page >= variablePage.totalPages;
   varInfo.textContent = `${variablePage.page} / ${variablePage.totalPages}`;
 }
 
+// --------- METAS / GOALS ---------
+
+function renderGoals() {
+  if (!goalsListEl) return;
+
+  goalsListEl.innerHTML = "";
+
+  if (!goals.length) {
+    const p = document.createElement("p");
+    p.style.fontSize = "0.85rem";
+    p.style.color = "#9ca3af";
+    p.textContent = "Nenhuma meta cadastrada ainda.";
+    goalsListEl.appendChild(p);
+    return;
+  }
+
+  goals.forEach((goal) => {
+    const card = document.createElement("div");
+    card.className = "goal-card";
+
+    const header = document.createElement("div");
+    header.className = "goal-header";
+
+    const nameEl = document.createElement("div");
+    nameEl.className = "goal-name";
+    nameEl.textContent = goal.name;
+
+    const valuesEl = document.createElement("div");
+    valuesEl.className = "goal-values";
+    valuesEl.textContent = `Alvo: ${formatMoney(
+      goal.target
+    )} | Atual: ${formatMoney(goal.current || 0)}`;
+
+    header.appendChild(nameEl);
+    header.appendChild(valuesEl);
+
+    const barContainer = document.createElement("div");
+    barContainer.className = "goal-progress-bar";
+
+    const fill = document.createElement("div");
+    fill.className = "goal-progress-fill";
+
+    const perc =
+      goal.target > 0 ? Math.min((goal.current || 0) / goal.target, 1) * 100 : 0;
+    fill.style.width = `${perc.toFixed(2)}%`;
+
+    barContainer.appendChild(fill);
+
+    const footer = document.createElement("div");
+    footer.className = "goal-footer";
+
+    const percText = document.createElement("span");
+    percText.textContent = `${perc.toFixed(1)}%`;
+
+    const actions = document.createElement("div");
+    actions.className = "goal-actions";
+
+    const addBtn = document.createElement("button");
+    addBtn.textContent = "Aportar";
+    addBtn.onclick = () => {
+      const valueStr = prompt("Valor do aporte nesta meta (R$):");
+      if (!valueStr) return;
+      const value = Number(valueStr.replace(",", "."));
+      if (!value || value <= 0) {
+        alert("Informe um valor válido.");
+        return;
+      }
+      goals = goals.map((g) =>
+        g.id === goal.id ? { ...g, current: (g.current || 0) + value } : g
+      );
+      saveGoalsToStorage();
+      renderGoals();
+    };
+
+    const removeValueBtn = document.createElement("button");
+    removeValueBtn.textContent = "Retirar";
+    removeValueBtn.onclick = () => {
+      const valueStr = prompt("Valor a retirar desta meta (R$):");
+      if (!valueStr) return;
+      const value = Number(valueStr.replace(",", "."));
+      if (!value || value <= 0) {
+        alert("Informe um valor válido.");
+        return;
+      }
+      goals = goals.map((g) => {
+        if (g.id !== goal.id) return g;
+        const atual = g.current || 0;
+        const novo = Math.max(atual - value, 0);
+        return { ...g, current: novo };
+      });
+      saveGoalsToStorage();
+      renderGoals();
+    };
+
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remover";
+    removeBtn.onclick = () => {
+      if (!confirm("Remover esta meta? Os dados serão perdidos.")) return;
+      goals = goals.filter((g) => g.id !== goal.id);
+      saveGoalsToStorage();
+      renderGoals();
+    };
+
+    actions.appendChild(addBtn);
+    actions.appendChild(removeValueBtn);
+    actions.appendChild(removeBtn);
+
+    footer.appendChild(percText);
+    footer.appendChild(actions);
+
+    card.appendChild(header);
+    card.appendChild(barContainer);
+    card.appendChild(footer);
+
+    goalsListEl.appendChild(card);
+  });
+}
+
 function calcSummary() {
-  // === CARDS DO MÊS SELECIONADO ===
   const filteredList = getFilteredTransactions();
-  let incomeMonth = 0, fixedMonth = 0, variableMonth = 0, extraMonth = 0;
-  
+  let incomeMonth = 0,
+    fixedMonth = 0,
+    variableMonth = 0,
+    extraMonth = 0;
+
   filteredList.forEach((t) => {
     if (t.type === "income") incomeMonth += t.amount;
     if (t.type === "fixed") fixedMonth += t.amount;
@@ -269,10 +415,12 @@ function calcSummary() {
     if (t.type === "extra") extraMonth += t.amount;
   });
 
-  // === SALDO TOTAL (TODOS OS MESES, FIXO) ===
   const allList = getAllTransactions();
-  let incomeTotal = 0, fixedTotal = 0, variableTotal = 0, extraTotal = 0;
-  
+  let incomeTotal = 0,
+    fixedTotal = 0,
+    variableTotal = 0,
+    extraTotal = 0;
+
   allList.forEach((t) => {
     if (t.type === "income") incomeTotal += t.amount;
     if (t.type === "fixed") fixedTotal += t.amount;
@@ -282,17 +430,14 @@ function calcSummary() {
 
   const totalReceitasMes = incomeMonth + extraMonth;
   const totalDespesasMes = fixedMonth + variableMonth;
-  const balanceTotal = (incomeTotal + extraTotal) - (fixedTotal + variableTotal);
+  const balanceTotal = incomeTotal + extraTotal - (fixedTotal + variableTotal);
 
-  // Cards do mês (mudam com filtro)
   elTotalIncome.textContent = formatMoney(totalReceitasMes);
   elTotalFixed.textContent = formatMoney(fixedMonth);
   elTotalVariable.textContent = formatMoney(variableMonth);
   elTotalExtra.textContent = formatMoney(extraMonth);
 
-  // Saldo TOTAL (sempre fixo)
   elBalance.textContent = formatMoney(balanceTotal);
-
   const saldoCard = elBalance.parentElement;
   saldoCard.style.borderColor = balanceTotal < 0 ? "#ef4444" : "#22c55e";
 
@@ -306,7 +451,6 @@ function buildCategoryChart() {
 
   const ctx = canvas.getContext("2d");
   const byCategory = {};
-
   const list = getFilteredTransactions();
 
   list
@@ -324,10 +468,21 @@ function buildCategoryChart() {
   const total = data.reduce((acc, v) => acc + v, 0);
 
   const COLORS = [
-    "#f97316","#ef4444","#22c55e","#3b82f6",
-    "#a855f7","#eab308","#14b8a6","#ec4899",
-    "#0ea5e9","#facc15","#6366f1","#10b981",
-    "#fb7185","#f97373","#8b5cf6",
+    "#f97316",
+    "#ef4444",
+    "#22c55e",
+    "#3b82f6",
+    "#a855f7",
+    "#eab308",
+    "#14b8a6",
+    "#ec4899",
+    "#0ea5e9",
+    "#facc15",
+    "#6366f1",
+    "#10b981",
+    "#fb7185",
+    "#f97373",
+    "#8b5cf6",
   ];
   const colors = labels.map((_, i) => COLORS[i % COLORS.length]);
 
@@ -369,7 +524,6 @@ function getSelectedMonthLabel() {
 // Gráfico Receita x Despesa do mês selecionado
 function buildMonthChart() {
   const monthLabel = getSelectedMonthLabel();
-
   const canvas = document.getElementById("monthChart");
   if (!canvas || typeof Chart === "undefined") return;
 
@@ -397,15 +551,13 @@ function buildMonthChart() {
     data: {
       labels: [monthLabel],
       datasets: [
-        { label: "Receitas", data: [income],  backgroundColor: "#22c55e" },
+        { label: "Receitas", data: [income], backgroundColor: "#22c55e" },
         { label: "Despesas", data: [expense], backgroundColor: "#ef4444" },
       ],
     },
     options: {
       responsive: true,
-      layout: {
-        padding: { top: 20 },
-      },
+      layout: { padding: { top: 20 } },
       scales: {
         x: { ticks: { color: "#e5e7eb" } },
         y: { ticks: { color: "#e5e7eb" } },
@@ -443,9 +595,10 @@ function updateUI() {
   calcSummary();
   buildCategoryChart();
   buildMonthChart();
+  renderGoals();
 }
 
-// Submit do formulário
+// Submit do formulário de transações
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -483,6 +636,40 @@ form.addEventListener("submit", (e) => {
   updateUI();
   form.reset();
 });
+
+// Submit do formulário de metas
+if (goalForm) {
+  goalForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("goal-name").value.trim();
+    const target = Number(
+      document.getElementById("goal-target").value.replace(",", ".")
+    );
+    const initial = Number(
+      (document.getElementById("goal-initial").value || "0").replace(",", ".")
+    );
+    const deadline = document.getElementById("goal-deadline").value; // opcional
+
+    if (!name || !target || target <= 0) {
+      alert("Informe pelo menos o nome e o valor alvo da meta.");
+      return;
+    }
+
+    const newGoal = {
+      id: Date.now(),
+      name,
+      target,
+      current: initial || 0,
+      deadline: deadline || null,
+    };
+
+    goals.push(newGoal);
+    saveGoalsToStorage();
+    renderGoals();
+    goalForm.reset();
+  });
+}
 
 // Filtro de mês
 monthFilterInput.addEventListener("change", () => {
@@ -555,7 +742,8 @@ function setupSortHeaders() {
       const col = th.getAttribute("data-sort");
 
       if (sortConfig.column === col) {
-        sortConfig.direction = sortConfig.direction === "asc" ? "desc" : "asc";
+        sortConfig.direction =
+          sortConfig.direction === "asc" ? "desc" : "asc";
       } else {
         sortConfig.column = col;
         sortConfig.direction = "desc";

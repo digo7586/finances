@@ -98,6 +98,145 @@ body {
 .card.extra    { border-color: #3b82f6; }
 .card.saldo    { border-color: #22c55e; }
 
+/* METAS */
+/* METAS / GOALS */
+
+.goals-section {
+  background: var(--bg-section);
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.goals-section h2 {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+#goal-form {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+#goal-form input,
+#goal-form button {
+  background: var(--bg-card);
+  border-radius: 6px;
+  border: 1px solid #5e6674;
+  color: var(--text-main);
+  padding: 6px 8px;
+  font-size: 0.9rem;
+}
+
+:root[data-theme="dark"] #goal-form input,
+:root[data-theme="dark"] #goal-form button {
+  color: #e5e7eb;
+}
+
+#goal-form button {
+  background: #3b82f6;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#goal-form button:hover {
+  background: #2563eb;
+}
+
+.goals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Card de meta individual */
+.goal-card {
+  background: var(--bg-card);
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.goal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.goal-name {
+  font-weight: 600;
+}
+
+.goal-values {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Barra de progresso */
+.goal-progress-bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: #1f2937;
+  overflow: hidden;
+}
+
+.goal-progress-fill {
+  height: 100%;
+  background: #22c55e;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* Rodapé com percentual e ações */
+.goal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.goal-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.goal-actions button {
+  background: #4b5563;
+  color: #f9fafb;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.goal-actions button:hover {
+  background: #6b7280;
+}
+
+/* Responsivo metas */
+@media (max-width: 900px) {
+  #goal-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  #goal-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+
 /* FORMULÁRIO */
 
 .form-section {

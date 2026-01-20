@@ -24,11 +24,10 @@ themeToggleBtn.addEventListener("click", () => {
 
 // ---------- LÓGICA FINANCEIRA ----------
 
-// Armazena as transações em memória
+// Transações e metas
 let transactions = JSON.parse(localStorage.getItem("transactions") || "[]");
-
-// --- METAS / GOALS ---
 let goals = JSON.parse(localStorage.getItem("goals") || "[]");
+let editingId = null; // id da transação em edição
 
 const elTotalIncome = document.getElementById("total-income");
 const elTotalFixed = document.getElementById("total-fixed");
@@ -64,10 +63,10 @@ let currentPageVariable = 1;
 // mês atual filtrado: "YYYY-MM" ou "" (sem filtro)
 let currentMonthFilter = "";
 
-// configuração de ordenação (para todas as tabelas)
+// configuração de ordenação
 let sortConfig = {
-  column: "date", // date | description | type | category | amount
-  direction: "desc", // "asc" ou "desc"
+  column: "date",
+  direction: "desc",
 };
 
 // registra plugin de datalabels
@@ -75,7 +74,8 @@ if (typeof Chart !== "undefined" && Chart.hasOwnProperty("register")) {
   Chart.register(ChartDataLabels);
 }
 
-// Formatação de dinheiro
+// ---------- UTILITÁRIOS ----------
+
 function formatMoney(value) {
   return value.toLocaleString("pt-BR", {
     style: "currency",
@@ -83,17 +83,14 @@ function formatMoney(value) {
   });
 }
 
-// Salva transações
 function saveToStorage() {
   localStorage.setItem("transactions", JSON.stringify(transactions));
 }
 
-// Salva metas
 function saveGoalsToStorage() {
   localStorage.setItem("goals", JSON.stringify(goals));
 }
 
-// retorna lista filtrada pelo mês
 function getFilteredTransactions() {
   if (!currentMonthFilter) return transactions;
 
@@ -101,17 +98,15 @@ function getFilteredTransactions() {
     if (!t.date) return false;
     const [year, month] = t.date.split("-");
     if (!year || !month) return false;
-    const key = `${year}-${month}`; // "YYYY-MM"
+    const key = `${year}-${month}`;
     return key === currentMonthFilter;
   });
 }
 
-// sempre retorna todas as transações (sem filtro de mês)
 function getAllTransactions() {
   return transactions;
 }
 
-// ordena lista de acordo com sortConfig
 function sortTransactions(list) {
   const { column, direction } = sortConfig;
   const sorted = [...list];
@@ -156,7 +151,6 @@ function sortTransactions(list) {
   return sorted;
 }
 
-// paginação genérica
 function paginate(array, page, pageSize) {
   const total = array.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -171,7 +165,8 @@ function paginate(array, page, pageSize) {
   };
 }
 
-// Renderiza tabelas
+// ---------- TABELAS ----------
+
 function renderTransactions() {
   tbodyIncome.innerHTML = "";
   tbodyFixed.innerHTML = "";
@@ -223,16 +218,55 @@ function renderTransactions() {
       t.type === "income" || t.type === "extra" ? "#4ade80" : "#f97316";
 
     const actionTd = document.createElement("td");
-    const btn = document.createElement("button");
-    btn.textContent = "✕";
-    btn.className = "btn-remove";
-    btn.onclick = () => {
+
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "✎";
+    editBtn.className = "btn-edit";
+    editBtn.onclick = () => {
+      editingId = t.id;
+
+      document.getElementById("date").value = t.date;
+      document.getElementById("description").value = t.description;
+      document.getElementById("amount").value = t.amount;
+      document.getElementById("type").value = t.type;
+      document.getElementById("category").value = t.category;
+
+      const submitBtn = form.querySelector("button[type='submit']");
+      if (submitBtn) submitBtn.textContent = "Salvar edição";
+
+     // destaca o formulário e rola até ele
+  const formSection = document.querySelector(".form-section");
+  if (formSection) {
+    formSection.classList.add("editing");
+    formSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+    };
+
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "✕";
+    removeBtn.className = "btn-remove";
+    removeBtn.onclick = () => {
       transactions = transactions.filter((x) => x.id !== t.id);
       saveToStorage();
       currentPageIncome = currentPageFixed = currentPageVariable = 1;
       updateUI();
+
+      if (editingId === t.id) {
+  editingId = null;
+  form.reset();
+  const submitBtn = form.querySelector("button[type='submit']");
+  if (submitBtn) submitBtn.textContent = "Adicionar";
+
+  const formSection = document.querySelector(".form-section");
+  if (formSection) {
+    formSection.classList.remove("editing");
+  }
+}
+
     };
-    actionTd.appendChild(btn);
+
+    actionTd.appendChild(editBtn);
+    actionTd.appendChild(removeBtn);
 
     tr.appendChild(dateTd);
     tr.appendChild(descTd);
@@ -283,7 +317,7 @@ function renderTransactions() {
   varInfo.textContent = `${variablePage.page} / ${variablePage.totalPages}`;
 }
 
-// --------- METAS / GOALS ---------
+// ---------- METAS / GOALS ----------
 
 function renderGoals() {
   if (!goalsListEl) return;
@@ -401,6 +435,8 @@ function renderGoals() {
   });
 }
 
+// ---------- RESUMO / GRÁFICOS ----------
+
 function calcSummary() {
   const filteredList = getFilteredTransactions();
   let incomeMonth = 0,
@@ -444,7 +480,6 @@ function calcSummary() {
   return { totalReceitas: totalReceitasMes, totalDespesas: totalDespesasMes };
 }
 
-// Gráfico de despesas por categoria
 function buildCategoryChart() {
   const canvas = document.getElementById("categoryChart");
   if (!canvas || typeof Chart === "undefined") return;
@@ -521,7 +556,6 @@ function getSelectedMonthLabel() {
   return `${month}/${year}`;
 }
 
-// Gráfico Receita x Despesa do mês selecionado
 function buildMonthChart() {
   const monthLabel = getSelectedMonthLabel();
   const canvas = document.getElementById("monthChart");
@@ -584,7 +618,8 @@ function buildMonthChart() {
   });
 }
 
-// Atualiza tudo
+// ---------- UPDATE GERAL ----------
+
 function updateUI() {
   const label = getSelectedMonthLabel();
   if (monthChartTitle) {
@@ -598,12 +633,16 @@ function updateUI() {
   renderGoals();
 }
 
-// Submit do formulário de transações
+// ---------- EVENTOS ----------
+
+// transações
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const date = document.getElementById("date").value;
-  const description = document.getElementById("description").value.trim();
+  const description = document
+    .getElementById("description")
+    .value.trim();
   const amount = Number(document.getElementById("amount").value);
   const type = document.getElementById("type").value;
   const category = document.getElementById("category").value.trim();
@@ -620,24 +659,53 @@ form.addEventListener("submit", (e) => {
     extra: "Renda extra",
   };
 
-  const newTransaction = {
-    id: Date.now(),
-    date,
-    description,
-    amount,
-    type,
-    typeLabel: typeLabels[type] || type,
-    category,
-  };
+  if (editingId !== null) {
+    // EDITAR
+    transactions = transactions.map((t) =>
+      t.id === editingId
+        ? {
+            ...t,
+            date,
+            description,
+            amount,
+            type,
+            typeLabel: typeLabels[type] || type,
+            category,
+          }
+        : t
+    );
+  } else {
+    // NOVO
+    const newTransaction = {
+      id: Date.now(),
+      date,
+      description,
+      amount,
+      type,
+      typeLabel: typeLabels[type] || type,
+      category,
+    };
+    transactions.push(newTransaction);
+  }
 
-  transactions.push(newTransaction);
   saveToStorage();
   currentPageIncome = currentPageFixed = currentPageVariable = 1;
   updateUI();
+
+  // volta para modo "novo"
+  editingId = null;
   form.reset();
+  const submitBtn = form.querySelector("button[type='submit']");
+  if (submitBtn) submitBtn.textContent = "Adicionar";
+
+  // REMOVE a borda de edição
+const formSection = document.querySelector(".form-section");
+if (formSection) {
+  formSection.classList.remove("editing");
+}
 });
 
-// Submit do formulário de metas
+// metas
 if (goalForm) {
   goalForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -647,9 +715,12 @@ if (goalForm) {
       document.getElementById("goal-target").value.replace(",", ".")
     );
     const initial = Number(
-      (document.getElementById("goal-initial").value || "0").replace(",", ".")
+      (document.getElementById("goal-initial").value || "0").replace(
+        ",",
+        "."
+      )
     );
-    const deadline = document.getElementById("goal-deadline").value; // opcional
+    const deadline = document.getElementById("goal-deadline").value;
 
     if (!name || !target || target <= 0) {
       alert("Informe pelo menos o nome e o valor alvo da meta.");
@@ -671,7 +742,7 @@ if (goalForm) {
   });
 }
 
-// Filtro de mês
+// filtro de mês
 monthFilterInput.addEventListener("change", () => {
   currentMonthFilter = monthFilterInput.value;
   currentPageIncome = currentPageFixed = currentPageVariable = 1;
@@ -685,7 +756,7 @@ clearMonthBtn.addEventListener("click", () => {
   updateUI();
 });
 
-// Paginação entradas
+// paginação
 paginationIncome
   .querySelector('button[data-role="prev"]')
   .addEventListener("click", () => {
@@ -700,7 +771,6 @@ paginationIncome
     renderTransactions();
   });
 
-// Paginação despesas fixas
 paginationFixed
   .querySelector('button[data-role="prev"]')
   .addEventListener("click", () => {
@@ -715,7 +785,6 @@ paginationFixed
     renderTransactions();
   });
 
-// Paginação despesas variáveis
 paginationVariable
   .querySelector('button[data-role="prev"]')
   .addEventListener("click", () => {
@@ -730,7 +799,7 @@ paginationVariable
     renderTransactions();
   });
 
-// Ordenação pelos cabeçalhos
+// ordenação
 function setupSortHeaders() {
   const headers = document.querySelectorAll(
     ".transactions-section th[data-sort]"

@@ -223,6 +223,46 @@ body {
   background: #6b7280;
 }
 
+.btn-edit {
+  border: none;
+  background: transparent;
+  color: #3b82f6;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+.btn-edit:hover {
+  text-decoration: underline;
+}
+
+/* Ações na tabela (editar / remover) */
+.transactions-section td:last-child {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px; /* espaço entre os botões */
+}
+
+.btn-edit,
+.btn-remove {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.btn-edit {
+  color: #3b82f6; /* azul */
+}
+.btn-edit:hover {
+  text-decoration:none;
+}
+
+.btn-remove {
+  color: #ef4444; /* vermelho */
+}
+
+
+
 /* Responsivo metas */
 @media (max-width: 900px) {
   #goal-form {
@@ -251,6 +291,12 @@ body {
   margin-bottom: 12px;
   font-size: 1.1rem;
 }
+
+.form-section.editing {
+  border: 2px solid #22c55e;        /* verde forte */
+  box-shadow: 0 0 0 1px #16a34a66;  /* leve glow */
+}
+
 
 #transaction-form {
   display: grid;

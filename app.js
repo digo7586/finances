@@ -466,7 +466,9 @@ function calcSummary() {
 
   const totalReceitasMes = incomeMonth + extraMonth;
   const totalDespesasMes = fixedMonth + variableMonth;
-  const balanceTotal = incomeTotal + extraTotal - (fixedTotal + variableTotal);
+    // saldo do mês filtrado, usando apenas filteredList
+  const balanceTotal = totalReceitasMes - totalDespesasMes;
+
 
   elTotalIncome.textContent = formatMoney(totalReceitasMes);
   elTotalFixed.textContent = formatMoney(fixedMonth);

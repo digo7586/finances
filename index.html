@@ -1,201 +1,333 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Financeiro Pessoal</title>
-
-  <link rel="stylesheet" href="style.css" />
-
-  <!-- Chart.js + plugin de datalabels -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
-</head>
-<body>
-  <header class="topbar">
-    <h1>Minhas Finanças</h1>
-    <button id="theme-toggle" aria-label="Alternar tema"></button>
-  </header>
-
-  <main class="container">
-    <!-- CARDS RESUMO -->
-    <section class="summary">
-      <div class="card income">
-        <h2>Receitas</h2>
-        <p id="total-income">R$ 0,00</p>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Oferta Especial - AirFry Pro Max 5L</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <div class="container navcontent">
+        <div class="navlogo">Barato do Dia</div>
+        <nav class="navlinks">
+          <a href="#produto">Produto</a>
+          <a href="#beneficios">Benefícios</a>
+          <a href="#avaliacoes">Avaliações</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <a href="#produto" class="navcta">Ver oferta</a>
       </div>
+    </header>
 
-      <div class="card fixed">
-        <h2>Despesas Fixas</h2>
-        <p id="total-fixed">R$ 0,00</p>
+    <main>
+      <!-- HERO PRODUTO -->
+      <section class="hero" id="produto">
+        <div class="container herogrid">
+          <div class="heroimage">
+            <!-- Troque pela imagem do produto -->
+            <img
+              src="assets/produto-exemplo.jpg"
+              alt="AirFry Pro Max 5L"
+            />
+          </div>
+
+          <div class="herocontent">
+            <span class="herotag">Oferta exclusiva de hoje</span>
+            <h1>
+              AirFry Pro Max 5L com
+              <span>desconto especial</span>
+              por tempo limitado.
+            </h1>
+
+            <p>
+              Descubra como a AirFry Pro Max 5L pode deixar suas
+              refeições muito mais rápidas, sequinhas e saborosas,
+              usando até 90% menos óleo e sem você precisar ficar na
+              frente do fogão.
+            </p>
+
+            <div class="herorating">
+              4.95
+              <span>1.200 avaliações</span>
+            </div>
+
+            <div class="heroprice">
+              <span class="heroprice-old">De R$ 497,00</span>
+              <span class="heroprice-new">Por apenas R$ 297,00</span>
+              <span class="heroprice-info">
+                Em até 12x no cartão • Envio rápido
+              </span>
+            </div>
+
+            <ul class="herobullets">
+              <li>Entrega para todo o Brasil.</li>
+              <li>Produto original, com garantia do fabricante.</li>
+              <li>Pagamento seguro no site oficial.</li>
+            </ul>
+
+            <a
+              href="LINKDOSEUAFILIADO"
+              class="btn btn--primary herobtn"
+            >
+              Quero aproveitar a oferta
+            </a>
+
+            <div class="herotimer">
+              <span>Oferta termina em</span>
+              <strong id="countdown">00d 00h 00m 00s</strong>
+            </div>
+
+            <div class="herotrust">
+              Compra 100% segura • Você será redirecionado para o site
+              oficial
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BENEFÍCIOS / DETALHES -->
+      <section class="section" id="beneficios">
+        <div class="container">
+          <h2>Por que a AirFry Pro Max 5L vale a pena?</h2>
+          <p class="sectionsubtitle">
+            Em vez de comparar dezenas de opções, veja os principais
+            motivos que fazem essa fritadeira se destacar.
+          </p>
+
+          <div class="cards">
+            <article class="card">
+              <h3>Refeições mais saudáveis</h3>
+              <p>
+                Prepare batatas fritas, frango, carnes e legumes com
+                até 90% menos óleo, mantendo crocância por fora e
+                maciez por dentro, ideal para quem quer comer melhor
+                sem abrir mão do sabor.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Economia de tempo</h3>
+              <p>
+                Aquece rápido e cozinha em poucos minutos, com timer e
+                desligamento automático, perfeita para rotinas corridas
+                e para quem chega cansado do trabalho.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Capacidade para a família</h3>
+              <p>
+                São 5 litros de capacidade, espaço suficiente para
+                preparar refeições completas para casais e famílias sem
+                precisar fazer várias levas.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Fácil de usar e limpar</h3>
+              <p>
+                Cesto antiaderente, peças removíveis e compatíveis com
+                lava-louças facilitam a limpeza e aumentam a
+                durabilidade do produto.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ESPECIFICAÇÕES / COMO USAR -->
+      <section class="section section--alt">
+        <div class="container">
+          <h2>Como a AirFry Pro Max 5L funciona na prática?</h2>
+
+          <div class="grid-2">
+            <div>
+              <ul class="list">
+                <li>
+                  Coloque o alimento no cesto, selecione a temperatura e
+                  o tempo, e a AirFry Pro Max faz o resto sozinha.
+                </li>
+                <li>
+                  Ideal para batatas fritas, frango, carnes, legumes,
+                  pães de queijo e até sobremesas.
+                </li>
+                <li>
+                  Perfeita para quem busca praticidade, famílias que
+                  querem refeições mais leves e pessoas com pouco tempo
+                  para cozinhar.
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <ul class="list">
+                <li>Capacidade: 5L.</li>
+                <li>Potência: 1500W.</li>
+                <li>Voltagem: 110V ou 220V (conforme opção escolhida).</li>
+                <li>Controle de temperatura: 80ºC a 200ºC.</li>
+                <li>Timer de até 60 minutos com desligamento automático.</li>
+                <li>
+                  Disponível em cores preto e inox (confira na página
+                  oficial).
+                </li>
+                <li>
+                  Alguns kits incluem formas extras ou livro digital de
+                  receitas (se oferecido pelo fabricante).
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AVALIAÇÕES -->
+      <section class="section" id="avaliacoes">
+        <div class="container">
+          <h2>O que quem comprou está dizendo</h2>
+          <p class="sectionsubtitle">
+            Alguns exemplos de avaliações que você pode encontrar no
+            site oficial do produto.
+          </p>
+
+          <div class="depoimentos">
+            <article class="depoimento">
+              <p>
+                Chegou super rápido, bem embalada e já usei no primeiro
+                dia. As batatas ficam crocantes e quase sem óleo, mudou
+                minha rotina na cozinha.
+              </p>
+              <span>Patrícia · Compra verificada</span>
+            </article>
+
+            <article class="depoimento">
+              <p>
+                Sempre achei que fritadeira sem óleo não fazia tanta
+                diferença, mas essa me surpreendeu. Fácil de usar e
+                limpar, uso praticamente todos os dias.
+              </p>
+              <span>Carlos · Compra verificada</span>
+            </article>
+
+            <article class="depoimento">
+              <p>
+                Já tive outra airfryer de outra marca e essa foi a que
+                mais entregou resultado pelo preço. Cabe bastante comida
+                e assa bem por igual.
+              </p>
+              <span>Fernanda · Compra verificada</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAMADA FINAL -->
+      <section class="section section--highlight">
+        <div class="container oferta">
+          <div class="ofertacontent">
+            <h2>Resumo rápido da oferta</h2>
+            <ul class="list">
+              <li>
+                Produto: AirFry Pro Max 5L – Fritadeira Sem Óleo
+                Inteligente.
+              </li>
+              <li>
+                Desconto especial válido por tempo limitado ou enquanto
+                durarem os estoques promocionais.
+              </li>
+              <li>
+                Pagamento seguro no site oficial, com cartão, Pix e
+                boleto (se disponível).
+              </li>
+              <li>Entrega para todo o Brasil.</li>
+              <li>
+                Garantia de satisfação conforme política do fabricante.
+              </li>
+            </ul>
+          </div>
+
+          <div class="ofertacard">
+            <span class="ofertatag">Oferta exclusiva de afiliados</span>
+
+            <div class="ofertaprice">
+              <span class="old">De R$ 497,00</span>
+              <span class="new">Por apenas R$ 297,00</span>
+              <span class="split">
+                Enquanto durar o estoque promocional
+              </span>
+            </div>
+
+            <a
+              href="LINKDOSEUAFILIADO"
+              class="btn btn--primary btn--full"
+            >
+              Ir para o site oficial
+            </a>
+
+            <span class="ofertasafe">
+              Você será redirecionado para a página de pagamento segura
+              do fabricante.
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="section section--alt" id="faq">
+        <div class="container">
+          <h2>Perguntas frequentes</h2>
+
+          <div class="faq">
+            <details>
+              <summary>O produto é original?</summary>
+              <p>
+                Sim. Você será redirecionado para o site oficial do
+                fabricante, onde a compra é feita com segurança.
+              </p>
+            </details>
+
+            <details>
+              <summary>O produto tem garantia?</summary>
+              <p>
+                A garantia segue as regras do fabricante e do próprio
+                site oficial onde o pagamento é realizado.
+              </p>
+            </details>
+
+            <details>
+              <summary>Em quanto tempo o produto chega?</summary>
+              <p>
+                Os prazos de entrega variam de acordo com sua região. Na
+                página oficial você consegue simular o frete antes de
+                finalizar a compra.
+              </p>
+            </details>
+
+            <details>
+              <summary>Como faço o pagamento?</summary>
+              <p>
+                Você poderá pagar com cartão de crédito, Pix ou boleto
+                (se disponível) diretamente no site oficial do produto.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footercontent">
+        <span>2026 Barato do Dia. Todos os direitos reservados.</span>
+        <span>
+          Este site participa de programas de afiliados e pode receber
+          comissão por compras realizadas através dos links.
+        </span>
       </div>
+    </footer>
 
-      <div class="card variable">
-        <h2>Despesas Variáveis</h2>
-        <p id="total-variable">R$ 0,00</p>
-      </div>
-
-      <div class="card extra">
-        <h2>Renda Extra</h2>
-        <p id="total-extra">R$ 0,00</p>
-      </div>
-
-      <div class="card saldo">
-        <h2>Saldo</h2>
-        <p id="balance">R$ 0,00</p>
-      </div>
-    </section>
-
-    <!-- FORMULÁRIO DE LANÇAMENTO -->
-    <section class="form-section">
-      <h2>Novo lançamento</h2>
-      <form id="transaction-form">
-        <input type="date" id="date" required />
-        <input type="text" id="description" placeholder="Descrição" required />
-        <input type="number" id="amount" step="0.01" placeholder="Valor" required />
-
-        <select id="type" required>
-          <option value="">Tipo</option>
-          <option value="income">Receita</option>
-          <option value="fixed">Despesa fixa</option>
-          <option value="variable">Despesa variável</option>
-          <option value="extra">Renda extra</option>
-        </select>
-
-        <input
-          type="text"
-          id="category"
-          placeholder="Categoria ex: Mercado, Aluguel"
-          required
-        />
-
-        <button type="submit">Adicionar</button>
-      </form>
-    </section>
-
-    <!-- METAS -->
-    <section class="goals-section">
-      <h2>Metas</h2>
-
-      <form id="goal-form">
-        <input type="text" id="goal-name" placeholder="Nome da meta" required />
-        <input
-          type="number"
-          id="goal-target"
-          step="0.01"
-          placeholder="Valor alvo (R$)"
-          required
-        />
-        <input
-          type="number"
-          id="goal-initial"
-          step="0.01"
-          placeholder="Valor inicial (opcional)"
-        />
-        <input type="date" id="goal-deadline" />
-        <button type="submit">Criar meta</button>
-      </form>
-
-      <div id="goals-list" class="goals-list"></div>
-    </section>
-
-    <!-- FILTRO DE MÊS -->
-    <section class="filters">
-      <h3>Selecione um mês</h3>
-      <div class="filters-row">
-        <label for="month-filter">Mês:</label>
-        <input type="month" id="month-filter" />
-        <button id="clear-month" type="button">Limpar filtro</button>
-      </div>
-    </section>
-
-    <!-- ENTRADAS -->
-    <section class="transactions-section">
-      <h3>Entradas</h3>
-      <table>
-        <thead>
-          <tr>
-            <th data-sort="date">Data ▲▼</th>
-            <th data-sort="description">Descrição ▲▼</th>
-            <th data-sort="type">Tipo ▲▼</th>
-            <th data-sort="category">Categoria ▲▼</th>
-            <th data-sort="amount">Valor ▲▼</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="transactions-income"></tbody>
-      </table>
-      <div class="pagination" id="pagination-income">
-        <button data-role="prev">&lt;</button>
-        <span data-role="info"></span>
-        <button data-role="next">&gt;</button>
-      </div>
-    </section>
-
-    <!-- DESPESAS FIXAS -->
-    <section class="transactions-section">
-      <h3>Despesas Fixas</h3>
-      <table>
-        <thead>
-          <tr>
-            <th data-sort="date">Data ▲▼</th>
-            <th data-sort="description">Descrição ▲▼</th>
-            <th data-sort="type">Tipo ▲▼</th>
-            <th data-sort="category">Categoria ▲▼</th>
-            <th data-sort="amount">Valor ▲▼</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="transactions-fixed"></tbody>
-      </table>
-      <div class="pagination" id="pagination-fixed">
-        <button data-role="prev">&lt;</button>
-        <span data-role="info"></span>
-        <button data-role="next">&gt;</button>
-      </div>
-    </section>
-
-    <!-- DESPESAS VARIÁVEIS -->
-    <section class="transactions-section">
-      <h3>Despesas Variáveis</h3>
-      <table>
-        <thead>
-          <tr>
-            <th data-sort="date">Data ▲▼</th>
-            <th data-sort="description">Descrição ▲▼</th>
-            <th data-sort="type">Tipo ▲▼</th>
-            <th data-sort="category">Categoria ▲▼</th>
-            <th data-sort="amount">Valor ▲▼</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="transactions-variable"></tbody>
-      </table>
-      <div class="pagination" id="pagination-variable">
-        <button data-role="prev">&lt;</button>
-        <span data-role="info"></span>
-        <button data-role="next">&gt;</button>
-      </div>
-    </section>
-
-    <!-- GRÁFICOS -->
-    <section class="charts">
-      <div class="chart-card">
-        <h2>Despesas por categoria</h2>
-        <canvas id="categoryChart"></canvas>
-      </div>
-
-      <div class="chart-card">
-        <h2 id="month-chart-title">Receitas x Despesas (Todos os meses)</h2>
-        <canvas id="monthChart"></canvas>
-      </div>
-    </section>
-  </main>
-
-  <footer class="finance-footer">
-    <p>&copy; Desenvolvido por Diego Domingos 2025</p>
-  </footer>
-
-  <script src="app.js"></script>
-</body>
+    <script src="venda.js"></script>
+  </body>
 </html>

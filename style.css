@@ -278,10 +278,12 @@ body {
   color: #22c55e;
 }
 
-.categoria-Aluguel,
+.categoria-Aluguel {
+  color: #c65be0;
+}
 .categoria-Contas,
 .categoria-Impostos {
-  color: #ef4444;
+  color: #ecee86;
 }
 
 .categoria-Mercado {
@@ -289,11 +291,11 @@ body {
 }
 
 .categoria-Transporte {
-  color: #0ea5e9;
+  color: #447aef;
 }
 
 .categoria-Lazer {
-  color: #a855f7;
+  color: #6df0a8;
 }
 
 .categoria-Saude {

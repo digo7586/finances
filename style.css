@@ -282,7 +282,11 @@ body {
   color: #c65be0;
 }
 .categoria-Contas,
+<<<<<<< HEAD
 .categoria-Cartao {
+=======
+.categoria-Impostos {
+>>>>>>> 5cc65eec0a2c28fe55dbd8ecc9ba554ab8d489c6
   color: #ecee86;
 }
 
@@ -290,7 +294,11 @@ body {
   color: #f97316;
 }
 
+<<<<<<< HEAD
 .categoria-Carro {
+=======
+.categoria-Transporte {
+>>>>>>> 5cc65eec0a2c28fe55dbd8ecc9ba554ab8d489c6
   color: #447aef;
 }
 

@@ -278,7 +278,9 @@ body {
   color: #22c55e;
 }
 
-.categoria-Aluguel,
+.categoria-Aluguel {
+  color: #c65be0;
+}
 .categoria-Contas,
 .categoria-Impostos {
   color: #ef4444;

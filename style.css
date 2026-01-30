@@ -74,6 +74,17 @@ body {
   margin-bottom: 20px;
 }
 
+.summary-text {
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.summary-text p {
+  margin-top: 4px;
+}
+
+
 .card {
   background: var(--bg-card);
   border-radius: 10px;
@@ -260,6 +271,39 @@ body {
 .btn-remove {
   color: #ef4444; /* vermelho */
 }
+
+/* cores por categoria (baseadas em .categoria-NomeSemAcentoESemEspaco) */
+.categoria-Salario {
+  font-weight: 600;
+  color: #22c55e;
+}
+
+.categoria-Aluguel,
+.categoria-Contas,
+.categoria-Impostos {
+  color: #ef4444;
+}
+
+.categoria-Mercado {
+  color: #f97316;
+}
+
+.categoria-Transporte {
+  color: #0ea5e9;
+}
+
+.categoria-Lazer {
+  color: #a855f7;
+}
+
+.categoria-Saude {
+  color: #fb7185;
+}
+
+.categoria-Educacao {
+  color: #facc15;
+}
+
 
 
 

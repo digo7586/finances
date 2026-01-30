@@ -42,6 +42,12 @@
         <p id="balance">R$ 0,00</p>
       </div>
     </section>
+    <section class="summary-text">
+  <p id="summary-text-main">
+    Comece adicionando suas receitas e despesas para ver um resumo do mês.
+  </p>
+</section>
+
 
     <!-- METAS -->
     <section class="goals-section">
@@ -75,12 +81,27 @@
           <option value="extra">Renda extra</option>
         </select>
 
-        <input
-          type="text"
-          id="category"
-          placeholder="Categoria (ex: Mercado, Aluguel)"
-          required
-        />
+        <select id="category-select" required>
+  <option value="">Categoria</option>
+  <option value="Salário">Salário</option>
+  <option value="Aluguel">Aluguel</option>
+  <option value="Mercado">Mercado</option>
+  <option value="Transporte">Transporte</option>
+  <option value="Lazer">Lazer</option>
+  <option value="Saúde">Saúde</option>
+  <option value="Educação">Educação</option>
+  <option value="Contas (Luz, Água, Internet)">Contas (Luz, Água, Internet)</option>
+  <option value="Impostos">Impostos</option>
+  <option value="Outro">Outro</option>
+</select>
+
+<input
+  type="text"
+  id="category-other"
+  placeholder="Outra categoria (Ex: Presentes, Pets)"
+  style="display:none;"
+>
+
 
         <button type="submit">Adicionar</button>
       </form>
@@ -179,9 +200,14 @@
   </main>
 
   <footer class="finance-footer">
-    <p>&copy; Desenvolvido por Diego Domingos 2025</p>
+    <p>&copy; Desenvolvido por DomingosTech&Code 2026</p>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="logica/core.js"></script>
+  <script src="logica/ui-transactions.js"></script>
+  <script src="logica/ui-goals.js"></script>
+  <script src="logica/charts.js"></script>
+  <script src="logica/events.js"></script>
+
 </body>
 </html>

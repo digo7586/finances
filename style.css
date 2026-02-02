@@ -331,7 +331,12 @@ body {
   font-weight: 300;
 }
 
-#total-income-table,
+#total-income-table {
+  color: #aef3c8;
+  font-weight: 600;
+  text-align: right;
+}
+
 #total-fixed-table,
 #total-variable-table {
   color: #ee2828e1;

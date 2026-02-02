@@ -198,6 +198,68 @@ body {
   color: #e5e7eb;
 }
 
+/* Accordion genérico (Metas + Novo lançamento) */
+.goals-section details,
+.form-section details {
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg-section);
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Cabeçalho do accordion */
+.goals-section summary,
+.form-section summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 16px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-main);
+  background: var(--bg-section);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Remove triângulo padrão do summary */
+.goals-section summary::-webkit-details-marker,
+.form-section summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Ícone de abrir/fechar com pseudo-elemento */
+.goals-section summary::after,
+.form-section summary::after {
+  content: "▾";
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+
+/* Rotaciona ícone quando abre */
+.goals-section details[open] > summary::after,
+.form-section details[open] > summary::after {
+  transform: rotate(180deg);
+}
+
+/* Conteúdo interno do accordion */
+.goals-section details > *:not(summary),
+.form-section details > *:not(summary) {
+  padding: 12px 16px 16px;
+  border-top: 1px solid var(--border-soft);
+}
+
+/* Tira borda extra das sections externas, já que o details tem borda */
+.goals-section,
+.form-section {
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+
 #goal-form button {
   background: #3b82f6;
   border: none;

@@ -282,11 +282,7 @@ body {
   color: #c65be0;
 }
 .categoria-Contas,
-<<<<<<< HEAD
 .categoria-Cartao {
-=======
-.categoria-Impostos {
->>>>>>> 5cc65eec0a2c28fe55dbd8ecc9ba554ab8d489c6
   color: #ecee86;
 }
 
@@ -294,11 +290,7 @@ body {
   color: #f97316;
 }
 
-<<<<<<< HEAD
 .categoria-Carro {
-=======
-.categoria-Transporte {
->>>>>>> 5cc65eec0a2c28fe55dbd8ecc9ba554ab8d489c6
   color: #447aef;
 }
 
@@ -313,6 +305,71 @@ body {
 .categoria-Educacao {
   color: #facc15;
 }
+
+
+.transactions-section table td:nth-child(5),
+.transactions-section table th:nth-child(5) {
+  text-align: right;
+}
+
+
+.transactions-section table tfoot tr {
+  background: linear-gradient(90deg, #111827, #1f2933);
+  border-top: 2px solid #f97316;
+}
+
+/* Células do rodapé */
+.transactions-section table tfoot td {
+  padding: 8px 10px;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+}
+
+.transactions-section table tfoot td[colspan] {
+  text-align: left;
+  color: #9ca3af;
+  font-weight: 300;
+}
+
+#total-income-table,
+#total-fixed-table,
+#total-variable-table {
+  color: #ee2828e1;
+  font-weight: 600;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .transactions-section table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;     
+    border-spacing: 0;
+  }
+
+  .transactions-section table thead,
+  .transactions-section table tbody,
+  .transactions-section table tfoot {
+    width: 100%;
+  }
+
+  .transactions-section table th,
+  .transactions-section table td {
+    white-space: nowrap;  
+    padding: 8px 10px;
+  }
+
+  
+  .transactions-section table td:nth-child(5),
+  .transactions-section table th:nth-child(5),
+  #total-income-table,
+  #total-fixed-table,
+  #total-variable-table {
+    text-align: right;
+  }
+}
+
+
 
 
 

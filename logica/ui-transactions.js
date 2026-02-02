@@ -168,4 +168,40 @@ function renderTransactions() {
   varPrev.disabled = variablePage.page <= 1;
   varNext.disabled = variablePage.page >= variablePage.totalPages;
   varInfo.textContent = `${variablePage.page} / ${variablePage.totalPages}`;
+   updateTableTotals();
+
+}
+
+
+function updateTableTotals() {
+  const tables = {
+    income: 'transactions-income',
+    fixed: 'transactions-fixed',
+    variable: 'transactions-variable'
+  };
+
+  Object.entries(tables).forEach(([key, tbodyId]) => {
+    const tbody = document.getElementById(tbodyId);
+    const totalElement = document.getElementById(`total-${key}-table`);
+    if (!tbody || !totalElement) return;
+
+    let total = 0;
+    const rows = tbody.querySelectorAll('tr');
+
+    rows.forEach(row => {
+      const amountCell = row.querySelector('td:nth-child(5)');
+      if (amountCell) {
+        const amountText = amountCell.textContent || amountCell.innerText;
+        const amount = parseFloat(
+          amountText.replace(/[^\d,-]/g, '').replace('.', '').replace(',', '.')
+        ) || 0;
+        total += amount;
+      }
+    });
+
+    totalElement.textContent = `R$ ${total.toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })}`;
+  });
 }

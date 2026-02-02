@@ -49,65 +49,67 @@
 </section>
 
 
-    <!-- METAS -->
-    <section class="goals-section">
-  <h2>Metas</h2>
+    
+   <!-- METAS (accordion) -->
+<section class="goals-section">
+  <details open>
+    <summary>Metas</summary>
 
-  <form id="goal-form">
-  <input type="text" id="goal-name" placeholder="Nome da meta" required>
-  <input type="number" id="goal-target" step="0.01" placeholder="Valor alvo" required>
-  <input type="number" id="goal-initial" step="0.01" placeholder="Valor inicial (opcional)">
-  <button type="submit">Criar meta</button>
-</form>
+    <form id="goal-form">
+      <input type="text" id="goal-name" placeholder="Nome da meta" required>
+      <input type="number" id="goal-target" step="0.01" placeholder="Valor alvo" required>
+      <input type="number" id="goal-initial" step="0.01" placeholder="Valor inicial (opcional)">
+      <button type="submit">Criar meta</button>
+    </form>
 
-
-
-  <div id="goals-list"></div>
+    <div id="goals-list"></div>
+  </details>
 </section>
 
+<!-- FORMULÁRIO (accordion) -->
+<section class="form-section">
+  <details open>
+    <summary>Novo lançamento</summary>
 
-    <!-- FORMULÁRIO -->
-    <section class="form-section">
-      <h2>Novo lançamento</h2>
-      <form id="transaction-form">
-        <input type="date" id="date" required />
-        <input type="text" id="description" placeholder="Descrição" required />
-        <input type="number" id="amount" step="0.01" placeholder="Valor" required />
+    <form id="transaction-form">
+      <input type="date" id="date" required />
+      <input type="text" id="description" placeholder="Descrição" required />
+      <input type="number" id="amount" step="0.01" placeholder="Valor" required />
 
-        <select id="type" required>
-          <option value="">Tipo</option>
-          <option value="income">Receita</option>
-          <option value="fixed">Despesa fixa</option>
-          <option value="variable">Despesa variável</option>
-          <option value="extra">Renda extra</option>
-        </select>
+      <select id="type" required>
+        <option value="">Tipo</option>
+        <option value="income">Receita</option>
+        <option value="fixed">Despesa fixa</option>
+        <option value="variable">Despesa variável</option>
+        <option value="extra">Renda extra</option>
+      </select>
 
-        <select id="category-select" required>
-  <option value="">Categoria</option>
-  <option value="Salário">Salário</option>
-  <option value="Pix">Pix</option>
-  <option value="Aluguel">Aluguel</option>
-  <option value="Mercado">Mercado</option>
-  <option value="Carro">Carro</option>
-  <option value="Lazer">Lazer</option>
-  <option value="Saúde">Saúde</option>
-  <option value="Educação">Educação</option>
-  <option value="Contas">Contas (Luz, Água, Internet)</option>
-  <option value="Cartao">Cartão</option>
-  <option value="Outro">Outro</option>
-</select>
+      <select id="category-select" required>
+        <option value="">Categoria</option>
+        <option value="Salário">Salário</option>
+        <option value="Aluguel">Aluguel</option>
+        <option value="Mercado">Mercado</option>
+        <option value="Carro">Carro</option>
+        <option value="Lazer">Lazer</option>
+        <option value="Saúde">Saúde</option>
+        <option value="Educação">Educação</option>
+        <option value="Contas">Contas (Luz, Água, Internet)</option>
+        <option value="Cartao">Cartão</option>
+        <option value="Outro">Outro</option>
+      </select>
 
-<input
-  type="text"
-  id="category-other"
-  placeholder="Outra categoria (Ex: Presentes, Pets)"
-  style="display:none;"
->
+      <input
+        type="text"
+        id="category-other"
+        placeholder="Outra categoria (Ex: Presentes, Pets)"
+        style="display:none;"
+      >
 
+      <button type="submit">Adicionar</button>
+    </form>
+  </details>
+</section>
 
-        <button type="submit">Adicionar</button>
-      </form>
-    </section>
 
     <!-- FILTRO DE MÊS -->
     <section class="filters">

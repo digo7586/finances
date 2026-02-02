@@ -1,3 +1,6 @@
+/* =========================
+   RESET / BASE
+   ========================= */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,39 +8,92 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* variáveis de tema (claro por padrão) */
+/* =========================
+   VARIÁVEIS DE TEMA
+   Claro por padrão
+   ========================= */
 :root {
-  --bg-body: #f3f4f6;
-  --bg-topbar: #ffffff;
+  --bg-body: #d6e3f8;
+  --bg-topbar: #bed6f1;
   --bg-card: #ffffff;
-  --bg-section: #ffffff;
+  --bg-section: #f2f7f3;
+
   --text-main: #0f172a;
-  --text-muted: #050505;
-  --border-soft: #cbcdd1;
+  --text-muted: #4b5563;
+
+  --border-soft: #d1d5db;
   --row-alt: #f9fafb;
   --row-hover: #e5f2ff;
+
+  --badge-income-bg: #dcfce7;
+  --badge-income-text: #021f0d;
+  --badge-fixed-bg: #ffedd5;
+  --badge-fixed-text: #9a3412;
+  --badge-variable-bg: #fee2e2;
+  --badge-variable-text: #b91c1c;
+  --badge-extra-bg: #dbeafe;
+  --badge-extra-text: #1d4ed8;
+
+  --goal-bar-bg: #e5e7eb;
+  --goal-bar-fill: #22c55e;
+
+  --pagination-bg: #e5e7eb;
+  --pagination-text: #111827;
+  --pagination-bg-disabled: #e5e7eb;
+  --pagination-text-disabled: #9ca3af;
+
+  
 }
 
-/* sobrescreve para tema escuro */
+/* Tema escuro */
 :root[data-theme="dark"] {
   --bg-body: #0f172a;
   --bg-topbar: #020617;
   --bg-card: #020617;
   --bg-section: #020617;
+
   --text-main: #e5e7eb;
   --text-muted: #9ca3af;
+
   --border-soft: #1f2937;
   --row-alt: #020617;
   --row-hover: #020617dd;
+
+  --badge-income-bg: #16a34a33;
+  --badge-income-text: #4ade80;
+  --badge-fixed-bg: #f9731633;
+  --badge-fixed-text: #fdba74;
+  --badge-variable-bg: #e11d4833;
+  --badge-variable-text: #fb7185;
+  --badge-extra-bg: #22c55e33;
+  --badge-extra-text: #bbf7d0;
+
+  --goal-bar-bg: #1f2937;
+  --goal-bar-fill: #22c55e;
+
+  --pagination-bg: #374151;
+  --pagination-text: #e5e7eb;
+  --pagination-bg-disabled: #111827;
+  --pagination-text-disabled: #4b5563;
 }
 
-/* GERAL */
-
+/* =========================
+   LAYOUT GERAL
+   ========================= */
 body {
   background: var(--bg-body);
   color: var(--text-main);
 }
 
+.container {
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 16px 32px;
+}
+
+/* =========================
+   TOPBAR / TEMA
+   ========================= */
 .topbar {
   padding: 16px 24px;
   background: var(--bg-topbar);
@@ -48,6 +104,7 @@ body {
 }
 
 .topbar h1 {
+  
   font-size: 1.5rem;
 }
 
@@ -59,14 +116,9 @@ body {
   color: var(--text-main);
 }
 
-.container {
-  max-width: 1100px;
-  margin: 24px auto;
-  padding: 0 16px 32px;
-}
-
-/* CARDS DO TOPO */
-
+/* =========================
+   CARDS RESUMO
+   ========================= */
 .summary {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -83,7 +135,6 @@ body {
 .summary-text p {
   margin-top: 4px;
 }
-
 
 .card {
   background: var(--bg-card);
@@ -109,9 +160,9 @@ body {
 .card.extra    { border-color: #3b82f6; }
 .card.saldo    { border-color: #22c55e; }
 
-/* METAS */
-/* METAS / GOALS */
-
+/* =========================
+   METAS / GOALS
+   ========================= */
 .goals-section {
   background: var(--bg-section);
   border-radius: 10px;
@@ -196,18 +247,18 @@ body {
   width: 100%;
   height: 8px;
   border-radius: 999px;
-  background: #1f2937;
+  background: var(--goal-bar-bg);
   overflow: hidden;
 }
 
 .goal-progress-fill {
   height: 100%;
-  background: #22c55e;
+  background: var(--goal-bar-fill);
   width: 0%;
   transition: width 0.3s ease;
 }
 
-/* Rodapé com percentual e ações */
+/* Rodapé meta */
 .goal-footer {
   display: flex;
   justify-content: space-between;
@@ -234,167 +285,9 @@ body {
   background: #6b7280;
 }
 
-.btn-edit {
-  border: none;
-  background: transparent;
-  color: #3b82f6;
-  cursor: pointer;
-  font-size: 0.75rem;
-}
-.btn-edit:hover {
-  text-decoration: underline;
-}
-
-/* Ações na tabela (editar / remover) */
-.transactions-section td:last-child {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 8px; /* espaço entre os botões */
-}
-
-.btn-edit,
-.btn-remove {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 0.85rem;
-}
-
-.btn-edit {
-  color: #3b82f6; /* azul */
-}
-.btn-edit:hover {
-  text-decoration:none;
-}
-
-.btn-remove {
-  color: #ef4444; /* vermelho */
-}
-
-/* cores por categoria (baseadas em .categoria-NomeSemAcentoESemEspaco) */
-.categoria-Salario {
-  font-weight: 600;
-  color: #22c55e;
-}
-
-.categoria-Aluguel {
-  color: #c65be0;
-}
-.categoria-Contas,
-.categoria-Cartao {
-  color: #ecee86;
-}
-
-.categoria-Mercado {
-  color: #f97316;
-}
-
-.categoria-Carro {
-  color: #447aef;
-}
-
-.categoria-Lazer {
-  color: #6df0a8;
-}
-
-.categoria-Saude {
-  color: #fb7185;
-}
-
-.categoria-Educacao {
-  color: #facc15;
-}
-
-
-.transactions-section table td:nth-child(5),
-.transactions-section table th:nth-child(5) {
-  text-align: right;
-}
-
-
-.transactions-section table tfoot tr {
-  background: linear-gradient(90deg, #111827, #1f2933);
-  border-top: 2px solid #f97316;
-}
-
-/* Células do rodapé */
-.transactions-section table tfoot td {
-  padding: 8px 10px;
-  font-size: 0.95rem;
-  letter-spacing: 0.04em;
-}
-
-.transactions-section table tfoot td[colspan] {
-  text-align: left;
-  color: #9ca3af;
-  font-weight: 300;
-}
-
-#total-income-table {
-  color: #aef3c8;
-  font-weight: 600;
-  text-align: right;
-}
-
-#total-fixed-table,
-#total-variable-table {
-  color: #ee2828e1;
-  font-weight: 600;
-  text-align: right;
-}
-
-@media (max-width: 768px) {
-  .transactions-section table {
-    display: block;
-    width: 100%;
-    overflow-x: auto;     
-    border-spacing: 0;
-  }
-
-  .transactions-section table thead,
-  .transactions-section table tbody,
-  .transactions-section table tfoot {
-    width: 100%;
-  }
-
-  .transactions-section table th,
-  .transactions-section table td {
-    white-space: nowrap;  
-    padding: 8px 10px;
-  }
-
-  
-  .transactions-section table td:nth-child(5),
-  .transactions-section table th:nth-child(5),
-  #total-income-table,
-  #total-fixed-table,
-  #total-variable-table {
-    text-align: right;
-  }
-}
-
-
-
-
-
-
-/* Responsivo metas */
-@media (max-width: 900px) {
-  #goal-form {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 600px) {
-  #goal-form {
-    grid-template-columns: 1fr;
-  }
-}
-
-
-/* FORMULÁRIO */
-
+/* =========================
+   FORMULÁRIO
+   ========================= */
 .form-section {
   background: var(--bg-section);
   border-radius: 10px;
@@ -409,10 +302,9 @@ body {
 }
 
 .form-section.editing {
-  border: 2px solid #22c55e;        /* verde forte */
-  box-shadow: 0 0 0 1px #16a34a66;  /* leve glow */
+  border: 2px solid #22c55e;
+  box-shadow: 0 0 0 1px #16a34a66;
 }
-
 
 #transaction-form {
   display: grid;
@@ -447,8 +339,9 @@ body {
   background: #16a34a;
 }
 
-/* FILTRO DE MÊS */
-
+/* =========================
+   FILTRO DE MÊS
+   ========================= */
 .filters {
   background: var(--bg-section);
   border-radius: 10px;
@@ -509,8 +402,9 @@ body {
   background: #6b7280;
 }
 
-/* TABELA */
-
+/* =========================
+   TABELAS / TRANSAÇÕES
+   ========================= */
 .transactions-section {
   background: var(--bg-section);
   border-radius: 10px;
@@ -545,8 +439,13 @@ body {
   background: var(--row-hover);
 }
 
-/* BADGES TIPO */
+/* coluna de valor alinhada à direita */
+.transactions-section table td:nth-child(5),
+.transactions-section table th:nth-child(5) {
+  text-align: right;
+}
 
+/* badges tipo */
 .badge {
   padding: 2px 8px;
   border-radius: 999px;
@@ -554,22 +453,129 @@ body {
   text-transform: capitalize;
 }
 
-.badge-income   { background: #16a34a33; color: #4ade80; }
-.badge-fixed    { background: #f9731633; color: #fdba74; }
-.badge-variable { background: #e11d4833; color: #fb7185; }
-.badge-extra    { background: #22c55e33; color: #bbf7d0; }
+.badge-income {
+  background: var(--badge-income-bg);
+  color: var(--badge-income-text);
+}
 
-/* BOTÃO REMOVER */
+.badge-fixed {
+  background: var(--badge-fixed-bg);
+  color: var(--badge-fixed-text);
+}
 
+.badge-variable {
+  background: var(--badge-variable-bg);
+  color: var(--badge-variable-text);
+}
+
+.badge-extra {
+  background: var(--badge-extra-bg);
+  color: var(--badge-extra-text);
+}
+
+/* ações na tabela */
+.transactions-section td:last-child {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-edit,
 .btn-remove {
   border: none;
   background: transparent;
-  color: #ef4444;
   cursor: pointer;
+  font-size: 0.85rem;
 }
 
-/* GRÁFICOS */
+.btn-edit {
+  color: #3b82f6;
+}
 
+.btn-edit:hover {
+  text-decoration: none;
+}
+
+.btn-remove {
+  color: #ef4444;
+}
+
+/* cores por categoria */
+.categoria-Salario {
+  font-weight: 600;
+  color: #22c55e;
+}
+
+.categoria-Aluguel {
+  color: #c65be0;
+}
+
+.categoria-Contas,
+.categoria-Cartao {
+  color: #eab308;
+}
+
+.categoria-Mercado {
+  color: #f97316;
+}
+
+.categoria-Carro {
+  color: #3b82f6;
+}
+
+.categoria-Lazer {
+  color: #10b981;
+}
+
+.categoria-Saude {
+  color: #fb7185;
+}
+
+.categoria-Educacao {
+  color: #facc15;
+}
+
+/* =========================
+   RODAPÉ DAS TABELAS (TOTAL)
+   ========================= */
+.transactions-section table tfoot tr {
+  background: linear-gradient(90deg, #111827, #1f2933);
+  border-top: 2px solid #f97316;
+}
+
+:root:not([data-theme="dark"]) .transactions-section table tfoot tr {
+  background: linear-gradient(90deg, #e8f8ef, #f9fafb);
+}
+
+.transactions-section table tfoot td {
+  padding: 8px 10px;
+  font-size: 0.85rem;
+ 
+}
+
+.transactions-section table tfoot td[colspan] {
+  text-align: left;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+#total-income-table {
+  color: #22c55e;
+  font-weight: 600;
+  text-align: right;
+}
+
+#total-fixed-table,
+#total-variable-table {
+  color: #ef4444;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* =========================
+   GRÁFICOS
+   ========================= */
 .charts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -588,8 +594,9 @@ body {
   margin-bottom: 12px;
 }
 
-/* PAGINAÇÃO */
-
+/* =========================
+   PAGINAÇÃO
+   ========================= */
 .pagination {
   display: flex;
   justify-content: flex-end;
@@ -600,8 +607,8 @@ body {
 }
 
 .pagination button {
-  background: #374151;
-  color: #e5e7eb;
+  background: var(--pagination-bg);
+  color: var(--pagination-text);
   border: none;
   border-radius: 4px;
   padding: 3px 8px;
@@ -609,17 +616,18 @@ body {
 }
 
 .pagination button:disabled {
-  background: #111827;
-  color: #4b5563;
+  background: var(--pagination-bg-disabled);
+  color: var(--pagination-text-disabled);
   cursor: default;
 }
 
 .pagination span[data-role="info"] {
-  color: #9ca3af;
+  color: var(--text-muted);
 }
 
-/* FOOTER */
-
+/* =========================
+   FOOTER
+   ========================= */
 .finance-footer {
   font-size: 10px;
   text-align: center;
@@ -628,8 +636,9 @@ body {
   color: var(--text-muted);
 }
 
-/* RESPONSIVO */
-
+/* =========================
+   RESPONSIVO GERAL
+   ========================= */
 @media (max-width: 900px) {
   .summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -641,6 +650,39 @@ body {
 
   .charts {
     grid-template-columns: 1fr;
+  }
+
+  #goal-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .transactions-section table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    border-spacing: 0;
+  }
+
+  .transactions-section table thead,
+  .transactions-section table tbody,
+  .transactions-section table tfoot {
+    width: 100%;
+  }
+
+  .transactions-section table th,
+  .transactions-section table td {
+    white-space: nowrap;
+    padding: 8px 10px;
+  }
+
+  .transactions-section table td:nth-child(5),
+  .transactions-section table th:nth-child(5),
+  #total-income-table,
+  #total-fixed-table,
+  #total-variable-table {
+    text-align: right;
   }
 }
 
@@ -714,5 +756,9 @@ body {
 
   canvas {
     max-width: 100%;
+  }
+
+  #goal-form {
+    grid-template-columns: 1fr;
   }
 }

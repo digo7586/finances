@@ -49,7 +49,7 @@ function renderTransactions() {
     const amountTd = document.createElement("td");
     amountTd.textContent = formatMoney(t.amount);
     amountTd.style.color =
-      t.type === "income" || t.type === "extra" ? "#4ade80" : "#f97316";
+      t.type === "income" || t.type === "extra" ? "#18bb54" : "#f97316";
 
     const actionTd = document.createElement("td");
 

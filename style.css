@@ -511,7 +511,9 @@ body {
   color: #c65be0;
 }
 
-.categoria-Contas,
+.categoria-Contas {
+  color: #125dff;
+}
 .categoria-Cartao {
   color: #eab308;
 }
@@ -521,7 +523,7 @@ body {
 }
 
 .categoria-Carro {
-  color: #3b82f6;
+  color: #4d8ef7;
 }
 
 .categoria-Lazer {
@@ -533,7 +535,7 @@ body {
 }
 
 .categoria-Educacao {
-  color: #facc15;
+  color: #ccc901;
 }
 
 /* =========================

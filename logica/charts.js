@@ -91,7 +91,7 @@ function buildCategoryChart() {
     options: {
       plugins: {
         legend: {
-          labels: { color: "#e5e7eb" },
+          labels: { color: "#8ea1f5" },
         },
         datalabels: {
           color: "#020617",
@@ -148,20 +148,20 @@ function buildMonthChart() {
       responsive: true,
       layout: { padding: { top: 20 } },
       scales: {
-        x: { ticks: { color: "#e5e7eb" } },
-        y: { ticks: { color: "#e5e7eb" } },
+        x: { ticks: { color: "#8ea1f5" } },
+        y: { ticks: { color: "#8ea1f5" } },
       },
       plugins: {
         legend: {
-          labels: { color: "#e5e7eb" },
+          labels: { color: "#8ea1f5" },
           padding: 20,
         },
         datalabels: {
           anchor: "end",
           align: "start",
           offset: -10,
-          color: "#e5e7eb",
-          font: { size: 10, weight: "bold" },
+          color: "#8ea1f5",
+          font: { size: 10, weight: "boldered"},
           formatter: (value) => {
             if (!totalMes) return "";
             const perc = (value / totalMes) * 100;

@@ -76,21 +76,18 @@ form.addEventListener("submit", (e) => {
 });
 
 // metas
-if (goalForm) {
+const goalNameInput = document.getElementById("goal-name");
+const goalTargetInput = document.getElementById("goal-target");
+const goalInitialInput = document.getElementById("goal-initial");
+
+// metas
+if (goalForm && goalNameInput && goalTargetInput && goalInitialInput) {
   goalForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const name = document.getElementById("goal-name").value.trim();
-    const target = Number(
-      document.getElementById("goal-target").value.replace(",", ".")
-    );
-    const initial = Number(
-      (document.getElementById("goal-initial").value || "0").replace(
-        ",",
-        "."
-      )
-    );
-    const deadline = document.getElementById("goal-deadline").value;
+    const name = goalNameInput.value.trim();
+    const target = Number((goalTargetInput.value || "0").replace(",", "."));
+    const initial = Number((goalInitialInput.value || "0").replace(",", "."));
 
     if (!name || !target || target <= 0) {
       showAlert("metaRequired");
@@ -102,7 +99,6 @@ if (goalForm) {
       name,
       target,
       current: initial || 0,
-      deadline: deadline || null,
     };
 
     goals.push(newGoal);
@@ -111,6 +107,7 @@ if (goalForm) {
     goalForm.reset();
   });
 }
+
 
 // filtro de mês
 monthFilterInput.addEventListener("change", () => {

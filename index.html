@@ -12,7 +12,7 @@
 </head>
 <body>
   <header class="topbar">
-    <h1>Minhas Finanças</h1>
+    <h1>Minhas Finanças jennifer</h1>
     <button id="theme-toggle" aria-label="Alternar tema">
       🌙
     </button>
@@ -86,28 +86,12 @@
   <option value="Salário">Salário</option>
   <option value="Aluguel">Aluguel</option>
   <option value="Mercado">Mercado</option>
-<<<<<<< HEAD
-<<<<<<< HEAD
   <option value="Carro">Carro</option>
-=======
-  <option value="Transporte">Carro</option>
->>>>>>> 5cc65eec0a2c28fe55dbd8ecc9ba554ab8d489c6
-=======
-  <option value="Carro">Carro</option>
->>>>>>> 7aeb7ac7b585bd6c95ab9bf1f17610bc25b9ead6
   <option value="Lazer">Lazer</option>
   <option value="Saúde">Saúde</option>
   <option value="Educação">Educação</option>
   <option value="Contas">Contas (Luz, Água, Internet)</option>
-<<<<<<< HEAD
-<<<<<<< HEAD
   <option value="Cartao">Cartão</option>
-=======
-  <option value="Impostos">Cartão</option>
->>>>>>> 5cc65eec0a2c28fe55dbd8ecc9ba554ab8d489c6
-=======
-  <option value="Cartao">Cartão</option>
->>>>>>> 7aeb7ac7b585bd6c95ab9bf1f17610bc25b9ead6
   <option value="Outro">Outro</option>
 </select>
 
@@ -148,6 +132,13 @@
           </tr>
         </thead>
         <tbody id="transactions-income"></tbody>
+        <tfoot>
+      <tr>
+        <td colspan="4"><strong>Total</strong></td>
+        <td id="total-income-table"><strong>R$ 0,00</strong></td>
+        <td></td>
+      </tr>
+    </tfoot>
       </table>
       <div class="pagination" id="pagination-income">
         <button data-role="prev">«</button>
@@ -171,6 +162,13 @@
           </tr>
         </thead>
         <tbody id="transactions-fixed"></tbody>
+         <tfoot>
+      <tr>
+        <td colspan="4"><strong>Total:</strong></td>
+        <td id="total-fixed-table"><strong>R$ 0,00</strong></td>
+        <td></td>
+      </tr>
+    </tfoot>
       </table>
       <div class="pagination" id="pagination-fixed">
         <button data-role="prev">«</button>
@@ -194,6 +192,13 @@
           </tr>
         </thead>
         <tbody id="transactions-variable"></tbody>
+          <tfoot>
+      <tr>
+        <td colspan="4"><strong>Total:</strong></td>
+        <td id="total-variable-table"><strong>R$ 0,00</strong></td>
+        <td></td>
+      </tr>
+    </tfoot>
       </table>
       <div class="pagination" id="pagination-variable">
         <button data-role="prev">«</button>

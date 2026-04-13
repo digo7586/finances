@@ -98,6 +98,19 @@
         <option value="Outro">Outro</option>
       </select>
 
+      
+<div>
+  <label>Repetir mensalmente?</label>
+  <select id="recurring">
+    <option value="none">Não repetir</option>
+    <option value="monthly">Repetir todo mês (próximos 12 meses)</option>
+    <option value="until">Repetir até o mês...</option>
+  </select>
+</div>
+
+<!-- se escolher "until", mostrar um input month -->
+<input type="month" id="recurring-until" style="display:none;" />
+
       <input
         type="text"
         id="category-other"

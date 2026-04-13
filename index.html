@@ -71,6 +71,7 @@
   <details open>
     <summary>Novo lançamento</summary>
 
+
     <form id="transaction-form">
       <input type="date" id="date" required />
       <input type="text" id="description" placeholder="Descrição" required />
@@ -98,29 +99,26 @@
         <option value="Outro">Outro</option>
       </select>
 
-      
-<div>
-  <select id="recurring">
-    <option value="">Recorrência</option>
-    <option value="none">Não repetir</option>
-    <option value="monthly">Repetir todo mês (próximos 12 meses)</option>
-    <option value="until">Repetir até o mês...</option>
-  </select>
-</div>
+      <input type="text" id="category-other" placeholder="Outra categoria" style="display:none;">
 
-<!-- se escolher "until", mostrar um input month -->
-<input type="month" id="recurring-until" style="display:none;" />
-
-      <input
-        type="text"
-        id="category-other"
-        placeholder="Outra categoria (Ex: Presentes, Pets)"
-        style="display:none;"
-      >
+      <!-- RECORRÊNCIA -->
+      <div style="grid-column: span 6; margin: 12px 0 8px;">
+        <label><strong>Repetir mensalmente por quantos meses?</strong></label><br>
+        <select id="recurring" style="margin-top: 6px; width: 100%;">
+          <option value="none">Não repetir</option>
+          <option value="6">6 meses</option>
+          <option value="12" selected>12 meses</option>
+          <option value="24">24 meses</option>
+          <option value="custom">Personalizado...</option>
+        </select>
+        
+        <input type="number" id="recurring-count" min="1" max="36" value="12" 
+               style="display: none; margin-top: 8px; width: 100%;" 
+               placeholder="Quantos meses? (máx 36)">
+      </div>
 
       <button type="submit">Adicionar</button>
     </form>
-  </details>
 </section>
 
 

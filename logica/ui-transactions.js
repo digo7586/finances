@@ -7,9 +7,11 @@ function renderTransactions() {
 
   const list = sortTransactions(getFilteredTransactions());
 
-  const incomes = list.filter(t => t.type === "income" || t.type === "extra");
-  const fixeds = list.filter(t => t.type === "fixed");
-  const variables = list.filter(t => t.type === "variable");
+  const incomes = list.filter(
+    (t) => t.type === "income" || t.type === "extra"
+  );
+  const fixeds = list.filter((t) => t.type === "fixed");
+  const variables = list.filter((t) => t.type === "variable");
 
   const incomePage = paginate(incomes, currentPageIncome, PAGE_SIZE);
   currentPageIncome = incomePage.page;
@@ -46,11 +48,11 @@ function renderTransactions() {
 
     const amountTd = document.createElement("td");
     amountTd.textContent = formatMoney(t.amount);
-    amountTd.style.color = (t.type === "income" || t.type === "extra") ? "#18bb54" : "#f97316";
+    amountTd.style.color =
+      t.type === "income" || t.type === "extra" ? "#18bb54" : "#f97316";
 
     const actionTd = document.createElement("td");
 
-    // Botão Editar
     const editBtn = createButton({
       text: "✎",
       className: "btn-edit",
@@ -62,10 +64,13 @@ function renderTransactions() {
         document.getElementById("type").value = t.type;
 
         if (categorySelect && categoryOtherInput) {
-          const options = Array.from(categorySelect.options).map(o => o.value);
-          if (options.includes(t.category)) {
+          const optionsValues = Array.from(categorySelect.options).map(
+            (o) => o.value
+          );
+          if (optionsValues.includes(t.category)) {
             categorySelect.value = t.category;
             categoryOtherInput.style.display = "none";
+            categoryOtherInput.value = "";
           } else {
             categorySelect.value = "Outro";
             categoryOtherInput.style.display = "block";
@@ -76,46 +81,19 @@ function renderTransactions() {
         const submitBtn = form.querySelector("button[type='submit']");
         if (submitBtn) submitBtn.textContent = "Salvar edição";
 
-        const formSection = document.querySelector(".goals-section:last-of-type");
+        const formSection = document.querySelector(".form-section");
         if (formSection) {
           formSection.classList.add("editing");
-          formSection.scrollIntoView({ behavior: "smooth" });
+          formSection.scrollIntoView({ behavior: "smooth", block: "start" });
         }
-      }
+      },
     });
 
-    // Botão Replicar (novo)
-    const replicateBtn = createButton({
-      text: "📅",
-      className: "btn-replicate",
-      onClick: () => replicateTransaction(t)
-    });
-
-    // Botão Remover com opção de excluir todas recorrentes
     const removeBtn = createButton({
       text: "✕",
       className: "btn-remove",
       onClick: () => {
-        const recurringGroup = findRecurringGroup(t);
-        let removeAll = false;
-
-        if (recurringGroup.length > 0) {
-          removeAll = confirm(
-            `Esta transação faz parte de uma série recorrente (${recurringGroup.length} outras encontradas).\n\n` +
-            `Deseja excluir TODAS as transações com esta descrição, valor e tipo?\n\n` +
-            `• OK = Excluir esta + todas as recorrentes\n` +
-            `• Cancelar = Excluir apenas esta`
-          );
-        }
-
-        if (removeAll) {
-          const idsToRemove = [t.id, ...recurringGroup.map(x => x.id)];
-          transactions = transactions.filter(x => !idsToRemove.includes(x.id));
-          alert(`✅ ${idsToRemove.length} transações recorrentes foram excluídas.`);
-        } else {
-          transactions = transactions.filter(x => x.id !== t.id);
-        }
-
+        transactions = transactions.filter((x) => x.id !== t.id);
         saveToStorage();
         currentPageIncome = currentPageFixed = currentPageVariable = 1;
         updateUI();
@@ -125,12 +103,15 @@ function renderTransactions() {
           form.reset();
           const submitBtn = form.querySelector("button[type='submit']");
           if (submitBtn) submitBtn.textContent = "Adicionar";
+          const formSection = document.querySelector(".form-section");
+          if (formSection) {
+            formSection.classList.remove("editing");
+          }
         }
-      }
+      },
     });
 
     actionTd.appendChild(editBtn);
-    actionTd.appendChild(replicateBtn);
     actionTd.appendChild(removeBtn);
 
     tr.appendChild(dateTd);
@@ -143,30 +124,54 @@ function renderTransactions() {
     return tr;
   }
 
-  incomePage.pageItems.forEach(t => tbodyIncome.appendChild(createRow(t)));
-  fixedPage.pageItems.forEach(t => tbodyFixed.appendChild(createRow(t)));
-  variablePage.pageItems.forEach(t => tbodyVariable.appendChild(createRow(t)));
+  incomePage.pageItems.forEach((t) => tbodyIncome.appendChild(createRow(t)));
+  fixedPage.pageItems.forEach((t) => tbodyFixed.appendChild(createRow(t)));
+  variablePage.pageItems.forEach((t) =>
+    tbodyVariable.appendChild(createRow(t))
+  );
 
-  // Atualiza paginação (código original mantido)
-  updatePagination("income", incomePage);
-  updatePagination("fixed", fixedPage);
-  updatePagination("variable", variablePage);
+  // paginação entradas
+  const incomePrev = paginationIncome.querySelector(
+    'button[data-role="prev"]'
+  );
+  const incomeNext = paginationIncome.querySelector(
+    'button[data-role="next"]'
+  );
+  const incomeInfo = paginationIncome.querySelector(
+    'span[data-role="info"]'
+  );
 
-  updateTableTotals();
+  incomePrev.disabled = incomePage.page <= 1;
+  incomeNext.disabled = incomePage.page >= incomePage.totalPages;
+  incomeInfo.textContent = `${incomePage.page} / ${incomePage.totalPages}`;
+
+  // paginação fixas
+  const fixedPrev = paginationFixed.querySelector('button[data-role="prev"]');
+  const fixedNext = paginationFixed.querySelector('button[data-role="next"]');
+  const fixedInfo = paginationFixed.querySelector('span[data-role="info"]');
+
+  fixedPrev.disabled = fixedPage.page <= 1;
+  fixedNext.disabled = fixedPage.page >= fixedPage.totalPages;
+  fixedInfo.textContent = `${fixedPage.page} / ${fixedPage.totalPages}`;
+
+  // paginação variáveis
+  const varPrev = paginationVariable.querySelector(
+    'button[data-role="prev"]'
+  );
+  const varNext = paginationVariable.querySelector(
+    'button[data-role="next"]'
+  );
+  const varInfo = paginationVariable.querySelector(
+    'span[data-role="info"]'
+  );
+
+  varPrev.disabled = variablePage.page <= 1;
+  varNext.disabled = variablePage.page >= variablePage.totalPages;
+  varInfo.textContent = `${variablePage.page} / ${variablePage.totalPages}`;
+   updateTableTotals();
+
 }
 
-function updatePagination(type, pageData) {
-  const pagination = document.getElementById(`pagination-${type}`);
-  if (!pagination) return;
-
-  const prev = pagination.querySelector('button[data-role="prev"]');
-  const next = pagination.querySelector('button[data-role="next"]');
-  const info = pagination.querySelector('span[data-role="info"]');
-
-  prev.disabled = pageData.page <= 1;
-  next.disabled = pageData.page >= pageData.totalPages;
-  info.textContent = `${pageData.page} / ${pageData.totalPages}`;
-}
 
 function updateTableTotals() {
   const tables = {
@@ -181,15 +186,22 @@ function updateTableTotals() {
     if (!tbody || !totalElement) return;
 
     let total = 0;
-    tbody.querySelectorAll('tr').forEach(row => {
+    const rows = tbody.querySelectorAll('tr');
+
+    rows.forEach(row => {
       const amountCell = row.querySelector('td:nth-child(5)');
       if (amountCell) {
-        const text = amountCell.textContent || "";
-        const value = parseFloat(text.replace(/[^\d,-]/g, '').replace('.', '').replace(',', '.')) || 0;
-        total += value;
+        const amountText = amountCell.textContent || amountCell.innerText;
+        const amount = parseFloat(
+          amountText.replace(/[^\d,-]/g, '').replace('.', '').replace(',', '.')
+        ) || 0;
+        total += amount;
       }
     });
 
-    totalElement.textContent = `R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+    totalElement.textContent = `R$ ${total.toLocaleString('pt-BR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })}`;
   });
-                   }
+}

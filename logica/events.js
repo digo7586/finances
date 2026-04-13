@@ -59,6 +59,29 @@ form.addEventListener("submit", (e) => {
     transactions.push(newTransaction);
   }
 
+
+const recurringType = document.getElementById("recurring").value;
+const untilMonth = document.getElementById("recurring-until").value;
+
+if (recurringType !== "none") {
+  let currentDate = new Date(date); // data da transação original
+  
+  const limitDate = recurringType === "until" && untilMonth 
+    ? new Date(untilMonth + "-01") 
+    : new Date(currentDate.getFullYear() + 1, currentDate.getMonth(), 1); // 12 meses
+
+  while (currentDate < limitDate) {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    
+    const newTrans = {
+      ...newTransaction,           // copia tudo
+      id: Date.now() + Math.random(), // id único
+      date: currentDate.toISOString().slice(0, 10) // YYYY-MM-DD
+    };
+    
+    transactions.push(newTrans);
+  }
+}
   saveToStorage();
   currentPageIncome = currentPageFixed = currentPageVariable = 1;
   updateUI();

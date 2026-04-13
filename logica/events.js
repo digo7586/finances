@@ -213,5 +213,48 @@ function setupSortHeaders() {
   });
 }
 
+// ========= RECORRÊNCIA COM LIMITE DE MESES =========
+
+function addRecurringTransactions(baseTransaction, monthsToRepeat) {
+  if (!monthsToRepeat || monthsToRepeat < 1) return;
+
+  const maxMonths = Math.min(monthsToRepeat, 36); // limite de segurança
+  let currentDate = new Date(baseTransaction.date);
+  let added = 0;
+
+  for (let i = 1; i <= maxMonths; i++) {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+
+    const newTrans = {
+      ...baseTransaction,
+      id: Date.now() + i + Math.floor(Math.random() * 9000),
+      date: currentDate.toISOString().slice(0, 10)
+    };
+
+    transactions.push(newTrans);
+    added++;
+  }
+
+  if (added > 0) {
+    console.log(`✅ ${added} transações recorrentes criadas`);
+  }
+}
+
+// Função para identificar transações recorrentes (mesma descrição + tipo + categoria + valor aproximado + dia similar)
+function findRecurringGroup(transaction) {
+  const day = parseInt(transaction.date.split("-")[2]);
+
+  return transactions.filter(t => {
+    if (t.id === transaction.id) return false;
+    if (t.description !== transaction.description) return false;
+    if (t.type !== transaction.type) return false;
+    if (t.category !== transaction.category) return false;
+    if (Math.abs(t.amount - transaction.amount) > 0.01) return false;
+
+    const tDay = parseInt(t.date.split("-")[2]);
+    return Math.abs(tDay - day) <= 5; // tolerância de 5 dias
+  });
+      }
+
 setupSortHeaders();
 updateUI();

@@ -105,6 +105,16 @@
         style="display:none;"
       >
 
+<select id="recurrence">
+  <option value="none">Sem recorrência</option>
+  <option value="6">6 meses</option>
+  <option value="12">12 meses</option>
+  <option value="custom">Personalizado</option>
+</select>
+
+<input type="number" id="recurrence-custom" placeholder="Quantidade de meses" style="display:none;">
+
+
       <button type="submit">Adicionar</button>
     </form>
   </details>
@@ -229,10 +239,6 @@
   </footer>
 
   <script src="logica/core.js"></script>
-  <script src="logica/ui-transactions.js"></script>
-  <script src="logica/ui-goals.js"></script>
-  <script src="logica/charts.js"></script>
-  <script src="logica/events.js"></script>
 
 </body>
 </html>

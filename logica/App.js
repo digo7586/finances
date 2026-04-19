@@ -56,29 +56,7 @@ const tbodyIncome = document.getElementById("transactions-income");
 const tbodyFixed = document.getElementById("transactions-fixed");
 const tbodyVariable = document.getElementById("transactions-variable");
 
-const toggleMonthBtn = document.getElementById("toggle-month");
-let closedMonths = JSON.parse(localStorage.getItem("closedMonths") || "[]");
-
-function saveClosedMonths() {
-  localStorage.setItem("closedMonths", JSON.stringify(closedMonths));
-}
-
-function isMonthClosed(month) {
-  return closedMonths.includes(month);
-}
-
-// mês atual filtrado: "YYYY-MM" ou "" (sem filtro)
-
-function getCurrentMonth() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  return `${year}-${month}`;
-}
-let currentMonthFilter = getCurrentMonth();
-
 const monthFilterInput = document.getElementById("month-filter");
-monthFilterInput.value = currentMonthFilter;
 const clearMonthBtn = document.getElementById("clear-month");
 const paginationIncome = document.getElementById("pagination-income");
 const paginationFixed = document.getElementById("pagination-fixed");
@@ -97,6 +75,8 @@ let currentPageIncome = 1;
 let currentPageFixed = 1;
 let currentPageVariable = 1;
 
+// mês atual filtrado: "YYYY-MM" ou "" (sem filtro)
+let currentMonthFilter = "";
 
 // configuração de ordenação
 let sortConfig = {
@@ -467,11 +447,6 @@ function updateUI() {
     monthChartTitle.textContent = `Receitas x Despesas (${label})`;
   }
 
-if (toggleMonthBtn) {
-  const closed = isMonthClosed(currentMonthFilter);
-  toggleMonthBtn.textContent = closed ? "Reabrir mês" : "Fechar mês";
-}
-
   renderTransactions();
   const summary = calcSummary();
   buildCategoryChart();
@@ -516,11 +491,6 @@ if (toggleMonthBtn) {
 // transações
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-
-if (isMonthClosed(currentMonthFilter)) {
-  alert("Este mês está fechado. Reabra para alterar.");
-  return;
-}
 
   const date = document.getElementById("date").value;
   const description = document
@@ -611,30 +581,6 @@ if (isMonthClosed(currentMonthFilter)) {
     formSection.classList.remove("editing");
   }
 });
-
-if (toggleMonthBtn) {
-  toggleMonthBtn.addEventListener("click", () => {
-
-    if (!currentMonthFilter) {
-      alert("Selecione um mês primeiro.");
-      return;
-    }
-
-    const isClosed = isMonthClosed(currentMonthFilter);
-
-    if (isClosed) {
-      // REABRIR
-      closedMonths = closedMonths.filter(m => m !== currentMonthFilter);
-    } else {
-      // FECHAR
-      closedMonths.push(currentMonthFilter);
-      showConfetti();
-    }
-
-    saveClosedMonths();
-    updateUI();
-})
-}
 
 // metas
 const goalNameInput = document.getElementById("goal-name");
@@ -925,11 +871,6 @@ function renderTransactions() {
   function createRow(t) {
     const tr = document.createElement("tr");
 
-if (isMonthClosed(currentMonthFilter)) {
-  tr.style.opacity = "0.5";
-  tr.style.filter = "grayscale(70%)";
-}
-
     const dateTd = document.createElement("td");
     dateTd.textContent = t.date;
 
@@ -995,10 +936,6 @@ tr.addEventListener("dblclick", () => {
       text: "✎",
       className: "btn-edit",
       onClick: () => {
-      if (isMonthClosed(currentMonthFilter)) {
-    alert("Mês fechado. Não é possível editar.");
-    return;
-  }
         editingId = t.id;
         document.getElementById("date").value = t.date;
         document.getElementById("description").value = t.description;
@@ -1035,10 +972,6 @@ tr.addEventListener("dblclick", () => {
       text: "✕",
       className: "btn-remove",
       onClick: () => {
-      if (isMonthClosed(currentMonthFilter)) {
-    alert("Mês fechado. Não é possível excluir.");
-    return;
-    }
         transactions = transactions.filter((x) => x.id !== t.id);
         saveToStorage();
         currentPageIncome = currentPageFixed = currentPageVariable = 1;
@@ -1151,39 +1084,3 @@ function updateTableTotals() {
     })}`;
   });
 }
-
-function showConfetti() {
-  const duration = 1000;
-  const end = Date.now() + duration;
-
-  const colors = ["#22c55e", "#3b82f6", "#f97316"];
-
-  (function frame() {
-    const timeLeft = end - Date.now();
-    if (timeLeft <= 0) return;
-
-    const confetti = document.createElement("div");
-    confetti.style.position = "fixed";
-    confetti.style.width = "6px";
-    confetti.style.height = "6px";
-    confetti.style.backgroundColor =
-      colors[Math.floor(Math.random() * colors.length)];
-    confetti.style.top = "0px";
-    confetti.style.left = Math.random() * window.innerWidth + "px";
-    confetti.style.zIndex = "9999";
-
-    document.body.appendChild(confetti);
-
-    let fall = setInterval(() => {
-      let top = parseFloat(confetti.style.top);
-      confetti.style.top = top + 5 + "px";
-
-      if (top > window.innerHeight) {
-        clearInterval(fall);
-        confetti.remove();
-      }
-    }, 16);
-
-    requestAnimationFrame(frame);
-  })();
-  }

@@ -1083,5 +1083,4 @@ function updateTableTotals() {
       maximumFractionDigits: 2
     })}`;
   });
-}
-
+    }

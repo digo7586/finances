@@ -1087,10 +1087,14 @@ function updateTableTotals() {
 
 // ========= EXPORTAR DADOS =========
 
+// ========= EXPORTAR DADOS =========
+
 const exportBtn = document.getElementById("export-data");
 
 if (exportBtn) {
   exportBtn.addEventListener("click", () => {
+
+    console.log("EXPORTAR CLICADO");
 
     const data = {
       transactions,
@@ -1102,20 +1106,21 @@ if (exportBtn) {
 
     const blob = new Blob([json], { type: "application/json" });
 
-    const url = URL.createObjectURL(blob);
+    const reader = new FileReader();
 
-    const a = document.createElement("a");
-    a.href = url;
+    reader.onload = function () {
+      const a = document.createElement("a");
+      a.href = reader.result;
+      a.download = "backup-financas.json";
 
-    const today = new Date().toISOString().slice(0,10);
-    a.download = `backup-financas-${today}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    };
 
-    a.click();
-
-    URL.revokeObjectURL(url);
+    reader.readAsDataURL(blob);
   });
 }
-
 
 // ========= IMPORTAR DADOS =========
 

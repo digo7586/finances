@@ -1085,89 +1085,107 @@ function updateTableTotals() {
   });
 }
 
-const exportBtn = document.getElementById("export-data");
+// ====================== EXPORTAR E IMPORTAR DADOS ======================
 
+// Exportar dados
+const exportBtn = document.getElementById("export-data");
 if (exportBtn) {
   exportBtn.addEventListener("click", () => {
-
-    console.log("EXPORTAR CLICADO");
-
-    const data = {
-      transactions,
-      goals,
-      closedMonths
+    const dataToExport = {
+      transactions: transactions,
+      goals: goals,
+      closedMonths: closedMonths,
+      exportDate: new Date().toISOString(),
+      version: "1.0"
     };
 
-    const json = JSON.stringify(data, null, 2);
-
-    const blob = new Blob([json], { type: "application/json" });
-
-    // 🔥 solução que funciona no Android Chrome
+    const jsonString = JSON.stringify(dataToExport, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
-    window.location.href = url;
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `minhas-financas-backup-${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 
-    // limpa depois
-    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    Swal.fire({
+      title: "Backup criado!",
+      text: "Arquivo baixado com sucesso.",
+      icon: "success",
+      timer: 2000,
+      showConfirmButton: false
+    });
   });
 }
 
-// ========= IMPORTAR DADOS =========
-
+// Importar dados
 const importBtn = document.getElementById("import-data");
-const importFile = document.getElementById("import-file");
+const importFileInput = document.getElementById("import-file");
 
-if (importBtn && importFile) {
-
+if (importBtn && importFileInput) {
   importBtn.addEventListener("click", () => {
-    importFile.click();
+    importFileInput.click();
   });
 
-  importFile.addEventListener("change", (event) => {
-
-    const file = event.target.files[0];
+  importFileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
-
-    reader.onload = function(e) {
+    reader.onload = function(event) {
       try {
-        const data = JSON.parse(e.target.result);
+        const importedData = JSON.parse(event.target.result);
 
-        if (!data.transactions || !data.goals) {
-          alert("Arquivo inválido!");
-          return;
+        if (!importedData.transactions || !importedData.goals) {
+          throw new Error("Arquivo inválido");
         }
 
-        const confirmImport = confirm(
-          "Isso vai substituir TODOS os seus dados atuais. Deseja continuar?"
-        );
+        // Confirmação antes de sobrescrever
+        Swal.fire({
+          title: "Importar dados?",
+          html: `Isso vai <strong>sobrescrever</strong> todas as suas transações e metas atuais.<br><br>Deseja continuar?`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sim, importar",
+          cancelButtonText: "Cancelar",
+          confirmButtonColor: "#ef4444"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Importa os dados
+            transactions = importedData.transactions || [];
+            goals = importedData.goals || [];
+            closedMonths = importedData.closedMonths || [];
 
-        if (!confirmImport) return;
+            saveToStorage();
+            saveGoalsToStorage();
+            saveClosedMonths();
 
-        // 🔥 substitui tudo
-        transactions = data.transactions || [];
-        goals = data.goals || [];
-        closedMonths = data.closedMonths || [];
+            currentPageIncome = currentPageFixed = currentPageVariable = 1;
+            updateUI();
 
-        // salva
-        localStorage.setItem("transactions", JSON.stringify(transactions));
-        localStorage.setItem("goals", JSON.stringify(goals));
-        localStorage.setItem("closedMonths", JSON.stringify(closedMonths));
+            Swal.fire({
+              title: "Importação concluída!",
+              text: "Seus dados foram carregados com sucesso.",
+              icon: "success"
+            });
+          }
+        });
 
-        updateUI();
-
-        alert("Dados importados com sucesso!");
-
-      } catch (err) {
-        alert("Erro ao importar arquivo.");
-        console.error(err);
+      } catch (error) {
+        Swal.fire({
+          title: "Erro na importação",
+          text: "O arquivo selecionado não é válido ou está corrompido.",
+          icon: "error"
+        });
       }
     };
 
     reader.readAsText(file);
-
-    // limpa input pra permitir importar o mesmo arquivo de novo
-    importFile.value = "";
+    // Limpa o input para permitir importar o mesmo arquivo novamente
+    importFileInput.value = "";
   });
 }
+

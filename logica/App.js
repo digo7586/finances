@@ -1084,3 +1084,95 @@ function updateTableTotals() {
     })}`;
   });
 }
+
+// ========= EXPORTAR DADOS =========
+
+const exportBtn = document.getElementById("export-data");
+
+if (exportBtn) {
+  exportBtn.addEventListener("click", () => {
+
+    const data = {
+      transactions,
+      goals,
+      closedMonths
+    };
+
+    const json = JSON.stringify(data, null, 2);
+
+    const blob = new Blob([json], { type: "application/json" });
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+
+    const today = new Date().toISOString().slice(0,10);
+    a.download = `backup-financas-${today}.json`;
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+  });
+}
+
+
+// ========= IMPORTAR DADOS =========
+
+const importBtn = document.getElementById("import-data");
+const importFile = document.getElementById("import-file");
+
+if (importBtn && importFile) {
+
+  importBtn.addEventListener("click", () => {
+    importFile.click();
+  });
+
+  importFile.addEventListener("change", (event) => {
+
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      try {
+        const data = JSON.parse(e.target.result);
+
+        if (!data.transactions || !data.goals) {
+          alert("Arquivo inválido!");
+          return;
+        }
+
+        const confirmImport = confirm(
+          "Isso vai substituir TODOS os seus dados atuais. Deseja continuar?"
+        );
+
+        if (!confirmImport) return;
+
+        // 🔥 substitui tudo
+        transactions = data.transactions || [];
+        goals = data.goals || [];
+        closedMonths = data.closedMonths || [];
+
+        // salva
+        localStorage.setItem("transactions", JSON.stringify(transactions));
+        localStorage.setItem("goals", JSON.stringify(goals));
+        localStorage.setItem("closedMonths", JSON.stringify(closedMonths));
+
+        updateUI();
+
+        alert("Dados importados com sucesso!");
+
+      } catch (err) {
+        alert("Erro ao importar arquivo.");
+        console.error(err);
+      }
+    };
+
+    reader.readAsText(file);
+
+    // limpa input pra permitir importar o mesmo arquivo de novo
+    importFile.value = "";
+  });
+}

@@ -9,10 +9,14 @@
   <!-- Chart.js + plugin para porcentagens -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
   <header class="topbar">
     <h1>Minhas Finanças</h1>
+    
+    
     <button id="theme-toggle" aria-label="Alternar tema">
       🌙
     </button>
@@ -46,15 +50,25 @@
   <p id="summary-text-main">
     Comece adicionando suas receitas e despesas para ver um resumo do mês.
   </p>
-      <div style="margin-top:10px;">
+  <div style="margin-top:10px;">
   <button id="export-data">📤 Exportar dados</button>
   <button id="import-data">📥 Importar dados</button>
   <input type="file" id="import-file" accept=".json" style="display:none;">
-      </div>
+</div>
 </section>
 
+ <!-- FILTRO DE MÊS -->
+    <section class="filters">
+      <h3>Selecione um mês</h3>
+      <div class="filters-row">
+        <label for="month-filter">Mês:</label>
+        <input type="month" id="month-filter" />
+        <button id="clear-month" type="button">Limpar filtro</button>
+      </div>
+      
+      <button id="toggle-month">Fechar mês</button>
+    </section>
 
-    
    <!-- METAS (accordion) -->
 <section class="goals-section">
   <details open>
@@ -126,15 +140,9 @@
 </section>
 
 
-    <!-- FILTRO DE MÊS -->
-    <section class="filters">
-      <h3>Selecione um mês</h3>
-      <div class="filters-row">
-        <label for="month-filter">Mês:</label>
-        <input type="month" id="month-filter" />
-        <button id="clear-month" type="button">Limpar filtro</button>
-      </div>
-    </section>
+   
+    
+    
 
     <!-- ENTRADAS -->
     <section class="transactions-section">
@@ -243,7 +251,7 @@
     <p>&copy; Desenvolvido por DomingosTech&Code 2026</p>
   </footer>
 
-  <script src="logica/App.js"></script>
+  <script src="logica/app.js"></script>
 
 </body>
 </html>

@@ -701,6 +701,104 @@ setupSortHeaders();
 updateUI();
 
 
+// ====================== EXPORTAR E IMPORTAR DADOS ======================
+
+// Exportar dados
+const exportBtn = document.getElementById("export-data");
+if (exportBtn) {
+  exportBtn.addEventListener("click", () => {
+    const dataToExport = {
+      transactions: transactions,
+      goals: goals,
+      exportDate: new Date().toISOString(),
+      version: "1.0"
+    };
+
+    const jsonString = JSON.stringify(dataToExport, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `minhas-financas-backup-${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    Swal.fire({
+      title: "Backup criado com sucesso!",
+      text: "O arquivo foi baixado.",
+      icon: "success",
+      timer: 2000,
+      showConfirmButton: false
+    });
+  });
+}
+
+// Importar dados
+const importBtn = document.getElementById("import-data");
+const importFileInput = document.getElementById("import-file");
+
+if (importBtn && importFileInput) {
+  importBtn.addEventListener("click", () => {
+    importFileInput.click();
+  });
+
+  importFileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      try {
+        const importedData = JSON.parse(event.target.result);
+
+        if (!importedData.transactions || !importedData.goals) {
+          throw new Error("Arquivo inválido");
+        }
+
+        Swal.fire({
+          title: "Importar dados?",
+          html: "Isso vai <strong>sobrescrever</strong> todas as transações e metas atuais.<br><br>Deseja continuar?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sim, importar",
+          cancelButtonText: "Cancelar",
+          confirmButtonColor: "#ef4444"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            transactions = importedData.transactions || [];
+            goals = importedData.goals || [];
+
+            saveToStorage();
+            saveGoalsToStorage();
+
+            currentPageIncome = currentPageFixed = currentPageVariable = 1;
+            updateUI();
+
+            Swal.fire({
+              title: "Importação concluída!",
+              text: "Seus dados foram carregados com sucesso.",
+              icon: "success"
+            });
+          }
+        });
+
+      } catch (error) {
+        Swal.fire({
+          title: "Erro",
+          text: "O arquivo selecionado não é válido.",
+          icon: "error"
+        });
+      }
+    };
+
+    reader.readAsText(file);
+    importFileInput.value = ""; // permite importar o mesmo arquivo novamente
+  });
+}
+
 // ========= ui/goals =========
 
 function renderGoals() {

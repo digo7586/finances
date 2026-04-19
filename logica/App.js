@@ -1085,10 +1085,6 @@ function updateTableTotals() {
   });
 }
 
-// ========= EXPORTAR DADOS =========
-
-// ========= EXPORTAR DADOS =========
-
 const exportBtn = document.getElementById("export-data");
 
 if (exportBtn) {
@@ -1106,19 +1102,13 @@ if (exportBtn) {
 
     const blob = new Blob([json], { type: "application/json" });
 
-    const reader = new FileReader();
+    // 🔥 solução que funciona no Android Chrome
+    const url = URL.createObjectURL(blob);
 
-    reader.onload = function () {
-      const a = document.createElement("a");
-      a.href = reader.result;
-      a.download = "backup-financas.json";
+    window.location.href = url;
 
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    };
-
-    reader.readAsDataURL(blob);
+    // limpa depois
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
   });
 }
 

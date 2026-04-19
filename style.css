@@ -136,6 +136,80 @@ body {
   margin-top: 4px;
 }
 
+/* =========================
+   BOTÕES EXPORT / IMPORT
+   ========================= */
+
+.summary-text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-text .buttons-container {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.summary-text button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.summary-text button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#export-data {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+}
+
+#export-data:hover {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+}
+
+#import-data {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+}
+
+#import-data:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+/* Estilo para tema claro */
+:root:not([data-theme="dark"]) #export-data {
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+:root:not([data-theme="dark"]) #import-data {
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .summary-text .buttons-container {
+    flex-direction: column;
+  }
+  
+  .summary-text button {
+    justify-content: center;
+    padding: 12px;
+  }
+}
+
 .card {
   background: var(--bg-card);
   border-radius: 10px;

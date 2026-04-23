@@ -288,7 +288,15 @@ function calcSummary() {
   elTotalIncome.textContent = formatMoney(totalReceitasMes);
   elTotalFixed.textContent = formatMoney(fixedMonth);
   elTotalVariable.textContent = formatMoney(variableMonth);
-  elTotalExtra.textContent = formatMoney(extraMonth);
+  
+  const totalDespesas = fixedMonth + variableMonth;
+
+// atualiza o novo card
+const elTotalExpenses = document.getElementById("total-expenses");
+if (elTotalExpenses) {
+  elTotalExpenses.textContent = formatMoney(totalDespesas);
+}
+  
   elBalance.textContent = formatMoney(balanceTotal);
 
   const saldoCard = elBalance.parentElement;

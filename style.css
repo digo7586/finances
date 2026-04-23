@@ -31,7 +31,7 @@
   --badge-fixed-text: #9a3412;
   --badge-variable-bg: #fee2e2;
   --badge-variable-text: #b91c1c;
-  --badge-extra-bg: #dbeafe;
+  --badge-extra-bg: #ffdc2b;
   --badge-extra-text: #1d4ed8;
 
   --goal-bar-bg: #e5e7eb;
@@ -65,7 +65,7 @@
   --badge-fixed-text: #fdba74;
   --badge-variable-bg: #e11d4833;
   --badge-variable-text: #fb7185;
-  --badge-extra-bg: #22c55e33;
+  --badge-extra-bg: #ffdc2b;
   --badge-extra-text: #bbf7d0;
 
   --goal-bar-bg: #1f2937;
@@ -230,8 +230,8 @@ body {
 
 .card.income   { border-color: #22c5af; }
 .card.fixed    { border-color: #f97316; }
-.card.variable { border-color: #ef4444; }
-.card.extra    { border-color: #3b82f6; }
+.card.variable { border-color: #ffdc2b; }
+.card.extra    { border-color: #ff1515; }
 .card.saldo    { border-color: #22c55e; }
 
 /* =========================

@@ -286,8 +286,8 @@ function calcSummary() {
   const balanceTotal = totalReceitasMes - totalDespesasMes;
 
   elTotalIncome.textContent = formatMoney(totalReceitasMes);
-  elTotalFixed.textContent = formatMoney(fixedMonth);
-  elTotalVariable.textContent = formatMoney(variableMonth);
+  /* elTotalFixed.textContent = formatMoney(fixedMonth);
+  elTotalVariable.textContent = formatMoney(variableMonth); */
   
   const totalDespesas = fixedMonth + variableMonth;
 
